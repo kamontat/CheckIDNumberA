@@ -13,4 +13,4 @@ $ANDROID_HOME/tools/bin/avdmanager create avd -n test -d pixel -k "system-images
 emulator @Pixel_25
 
 # run android test
-# ./gradlew --no-daemon --stacktrace :app:connectedAndroidTest -PDisableRibbon
+./gradlew --no-daemon --stacktrace :app:connectedAndroidTest -PDisableRibbon
