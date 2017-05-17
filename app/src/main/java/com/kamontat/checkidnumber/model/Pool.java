@@ -3,6 +3,7 @@ package com.kamontat.checkidnumber.model;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -26,7 +27,8 @@ public class Pool extends ArrayAdapter<IDNumber> {
 	@NonNull
 	@Override
 	public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-		if (convertView == null) return super.getView(position, null, parent);
+		if (convertView == null)
+			convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.two_line_list_item, parent, false);
 		
 		TextView textView1 = (TextView) convertView.findViewById(android.R.id.text1);
 		TextView textView2 = (TextView) convertView.findViewById(android.R.id.text2);
