@@ -10,9 +10,11 @@ import android.view.MenuItem;
 import com.kamontat.checkidnumber.R;
 import com.kamontat.checkidnumber.adapter.ViewPagerAdapter;
 import com.kamontat.checkidnumber.model.Pool;
+import com.kamontat.checkidnumber.presenter.MainPresenter;
 import com.kamontat.checkidnumber.view.fragment.InputFragment;
 
 public class MainActivity extends AppCompatActivity implements MainView {
+	private MainPresenter presenter;
 	private String header;
 	
 	private BottomNavigationView navigation;
@@ -44,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	private final ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager.OnPageChangeListener() {
 		@Override
 		public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-			
 		}
 		
 		@Override
@@ -56,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		
 		@Override
 		public void onPageScrollStateChanged(int state) {
-			
 		}
 	};
 	
@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		presenter = new MainPresenter(new Pool(this));
 		header = getResources().getString(R.string.input_message);
 		
 		viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -76,18 +77,13 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	}
 	
 	private void setViewPaperAdapter() {
-		ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 		inputFragment = new InputFragment();
 		listFragment = new ListFragment();
-		listFragment.setListAdapter(new Pool(this)); // mockup
+		listFragment.setListAdapter(presenter.getPool()); // mockup
 		
+		ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 		adapter.addFragment(inputFragment);
 		adapter.addFragment(listFragment);
 		viewPager.setAdapter(adapter);
-	}
-	
-	@Override
-	public void setPool(Pool p) {
-		
 	}
 }
