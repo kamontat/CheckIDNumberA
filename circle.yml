@@ -4,31 +4,27 @@ machine:
     TERM: "dumb"
     ADB_INSTALL_TIMEOUT: "10"
     GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
+    QEMU_AUDIO_DRV: none
 
 dependencies:
   pre:
     - echo y | android update sdk --no-ui --all --filter tool
     - echo y | $ANDROID_HOME/tools/bin/sdkmanager --update
-    - echo y | $ANDROID_HOME/tools/bin/sdkmanager --verbose "system-images;android-25;google_apis;x86"
     - mkdir -p ${ANDROID_HOME}/licenses || true
     - echo -e "8933bad161af4178b1185d1a37fbf41ea5269c55\c" > ${ANDROID_HOME}/licenses/android-sdk-license
     - echo -e "79120722343a6f314e0719f863036c702b0e6b2a\n84831b9409646a918e30573bab4c9c91346d8abd\c" > ${ANDROID_HOME}/licenses/android-sdk-preview-license
     - echo -e "8403addf88ab4874007e1c1e80a0025bf2550a37\c" > ${ANDROID_HOME}/licenses/intel-android-sysimage-license
 
 test:
-  override:
-    # start the emulator
-    - emulator -avd circleci-android22 -no-audio -no-window:
+  pre:
+    - emulator -avd circleci-android24 -no-window:
         background: true
         parallel: true
-    # wait for it to have booted
     - circle-android wait-for-boot
-    # unlock the emulator screen
-    - sleep 30
-    - adb shell input keyevent 82
+  override:
     # run tests  against the emulator.
-    - ./gradlew connectedAndroidTest -PdisablePreDex
+    - ./gradlew connectedAndroidTest
     # copy the build outputs to artifacts
-    - cp -r app/build/outputs $CIRCLE_ARTIFACTS
+    - cp -r my-project/build/outputs $CIRCLE_ARTIFACTS
     # copy the test results to the test results directory.
-    - cp -r app/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
+    - cp -r my-project/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
