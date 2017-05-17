@@ -15,14 +15,14 @@ echo -e "8403addf88ab4874007e1c1e80a0025bf2550a37\c" > ${ANDROID_HOME}/licenses/
 ./gradlew --no-daemon --stacktrace clean -PDisableRibbon
 
 
-NAME="Pixel_25"
+# NAME="Pixel_25"
 
 # update android
-echo y | $ANDROID_HOME/tools/bin/sdkmanager --update
-echo y | $ANDROID_HOME/tools/bin/sdkmanager --verbose "system-images;android-25;google_apis;x86"
+# echo y | $ANDROID_HOME/tools/bin/sdkmanager --update
+# echo y | $ANDROID_HOME/tools/bin/sdkmanager --verbose "system-images;android-25;google_apis;x86"
 
 # create avd
-IS_HAVE=$($ANDROID_HOME/tools/bin/avdmanager list avd | grep -c $NAME)
-if [[ $IS_HAVE -eq 0 ]]; then
-    $ANDROID_HOME/tools/bin/avdmanager create avd -n $NAME -d pixel -k "system-images;android-25;google_apis;x86" -c 1000M
-fi
+# IS_HAVE=$($ANDROID_HOME/tools/bin/avdmanager list avd | grep -c $NAME)
+# if [[ $IS_HAVE -eq 0 ]]; then
+#     $ANDROID_HOME/tools/bin/avdmanager create avd -n $NAME -d pixel -k "system-images;android-25;google_apis;x86" -c 1000M
+# fi
