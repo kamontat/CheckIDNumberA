@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 # run unit test
-./gradlew --no-daemon --stacktrace testDebugUnitTest :app:testDebugUnitTest -PDisableRibbon
+./gradlew --no-daemon --stacktrace build -PDisableRibbon
