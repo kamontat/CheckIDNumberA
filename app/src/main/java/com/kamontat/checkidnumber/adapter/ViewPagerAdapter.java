@@ -2,7 +2,7 @@ package com.kamontat.checkidnumber.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.*;
 
@@ -11,7 +11,7 @@ import java.util.*;
  * @version 1.0
  * @since Thu 11/May/2017 - 10:19 PM
  */
-public class ViewPagerAdapter extends FragmentPagerAdapter {
+public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 	private final List<Fragment> fragmentList;
 	
 	public ViewPagerAdapter(FragmentManager fm) {
