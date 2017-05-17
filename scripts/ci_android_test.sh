@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
+export ANDROID_EMULATOR_FORCE_32BIT='true'
+
 # create emulation
-android create avd --name "Pixel_25" --path ./.android --device "pixel" --target 2
+android create avd --name "Pixel_25" --path ./.android --device "pixel" --target 2 --abi "google_apis/x86"
 
 # run emulator
 emulator @Pixel_25
