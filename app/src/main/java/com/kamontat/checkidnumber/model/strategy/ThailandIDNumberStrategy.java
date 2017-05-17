@@ -2,6 +2,8 @@ package com.kamontat.checkidnumber.model.strategy;
 
 import com.kamontat.checkidnumber.api.constants.Status;
 
+import java.util.*;
+
 import static com.kamontat.checkidnumber.api.constants.Status.*;
 
 /**
@@ -17,6 +19,8 @@ public class ThailandIDNumberStrategy implements IDNumberStrategy {
 	
 	@Override
 	public Status checking(String id) {
+		if (id == null || Objects.equals(id, "")) return NOT_CREATE;
+		
 		char[] splitID = id.toCharArray();
 		if (splitID[0] == '9') {
 			return NOT_NINE;
