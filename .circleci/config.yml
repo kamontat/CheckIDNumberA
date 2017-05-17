@@ -16,9 +16,14 @@ jobs:
           key: checkidnumber-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum ".circleci/config.yml" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
 
       - run:
-          name: Tester
+          name: update
           command: |
-            ls $ANDROID_HOME/tools/bin/
+            $ANDROID_HOME/tools/bin/sdkmanager --update
+
+      - run:
+          name: tester
+          command: |
+            ls $ANDROID_HOME/tools/bin
 
 
       - run:
