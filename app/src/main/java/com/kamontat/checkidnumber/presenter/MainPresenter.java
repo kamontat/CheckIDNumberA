@@ -1,7 +1,9 @@
 package com.kamontat.checkidnumber.presenter;
 
+import android.content.Context;
 import com.kamontat.checkidnumber.model.IDNumber;
 import com.kamontat.checkidnumber.model.Pool;
+import com.kamontat.checkidnumber.view.MainView;
 
 /**
  * @author kamontat
@@ -10,9 +12,11 @@ import com.kamontat.checkidnumber.model.Pool;
  */
 public class MainPresenter {
 	private Pool pool;
+	private MainView view;
 	
-	public MainPresenter(Pool pool) {
+	public MainPresenter(MainView view, Pool pool) {
 		this.pool = pool;
+		this.view = view;
 	}
 	
 	public Pool getPool() {
@@ -21,5 +25,17 @@ public class MainPresenter {
 	
 	public void addID(IDNumber idNumber) {
 		pool.add(idNumber);
+	}
+	
+	public boolean isStorageWritable() {
+		return view.isStorageWritable();
+	}
+	
+	public IDNumber[] getIDNumbers() {
+		return pool.getIDNumbers();
+	}
+	
+	public Context getContext() {
+		return view.getContext();
 	}
 }

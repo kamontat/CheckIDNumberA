@@ -33,6 +33,7 @@
                 android:textAlignment="center"
                 android:id="@+id/input_btn"
                 android:text="@string/enter"
+                android:enabled="false"
                 android:layout_gravity="right"/>
 
         <ListView

@@ -8,4 +8,13 @@
     <string name="title_activity_list">ListActivity</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="export_xls">Export (xls)</string>
+    <string name="about">About</string>
+
+    <string name="about_title">About this app</string>
+    <string-array name="developer_name">
+        <item>Kamontat Chantrachirathumrong</item>
+    </string-array>
+    <string name="developer_github">https://github.com/kamontat</string>
+    <string name="ok_message">OK</string>
 </resources>
