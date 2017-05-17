@@ -1,6 +1,8 @@
 package com.kamontat.checkidnumber.view;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -9,9 +11,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.kamontat.checkidnumber.BuildConfig;
 import com.kamontat.checkidnumber.R;
 import com.kamontat.checkidnumber.adapter.ViewPagerAdapter;
 import com.kamontat.checkidnumber.api.constants.Status;
@@ -19,6 +25,8 @@ import com.kamontat.checkidnumber.model.IDNumber;
 import com.kamontat.checkidnumber.model.Pool;
 import com.kamontat.checkidnumber.presenter.MainPresenter;
 import com.kamontat.checkidnumber.view.fragment.InputFragment;
+
+import java.util.*;
 
 public class MainActivity extends AppCompatActivity implements MainView {
 	private MainPresenter presenter;
@@ -73,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		presenter = new MainPresenter(new Pool(this));
+		presenter = new MainPresenter(this, new Pool(this));
 		header = getResources().getString(R.string.input_message);
 		
 		viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -83,6 +91,32 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 		
 		setViewPaperAdapter();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.top_menu, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.export:
+				
+				break;
+			case R.id.about:
+				new MaterialDialog.Builder(this).title(String.format(Locale.ENGLISH, "%s %s", getResources().getString(R.string.about_title), BuildConfig.VERSION_NAME + "-build" + BuildConfig.VERSION_CODE)).content("Develop by").items(R.array.developer_name).itemsCallback(new MaterialDialog.ListCallback() {
+					@Override
+					public void onSelection(MaterialDialog dialog, android.view.View itemView, int which, CharSequence text) {
+						Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.developer_github)));
+						startActivity(browserIntent);
+					}
+				}).positiveText(R.string.ok_message).canceledOnTouchOutside(true).show();
+				break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 	
 	private void setViewPaperAdapter() {
@@ -161,5 +195,20 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	@Override
 	public void showKeyBoard() {
 		inputFragment.showKeyboard(this);
+	}
+	
+	@Override
+	public boolean isStorageWritable() {
+		return false;
+	}
+	
+	@Override
+	public IDNumber[] getIDNumbers() {
+		return new IDNumber[0];
+	}
+	
+	@Override
+	public Context getContext() {
+		return this;
 	}
 }
