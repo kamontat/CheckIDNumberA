@@ -27,6 +27,3 @@ IS_HAVE=$($ANDROID_HOME/tools/bin/avdmanager list avd | grep -c $NAME)
 if [[ $IS_HAVE -eq 0 ]]; then
     $ANDROID_HOME/tools/bin/avdmanager create avd -n $NAME -d pixel -k "system-images;android-25;google_apis;x86" -c 1000M
 fi
-
-# run emulator
-emulator -avd $NAME
