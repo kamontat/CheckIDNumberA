@@ -3,9 +3,7 @@ jobs:
   build:
     docker:
       - image: menny/android_ndk:1.6.1a
-
     working_directory: /opt/workspace/
-
     environment:
       _JAVA_OPTIONS: "-Xmx1400m -XX:ParallelGCThreads=2 -XX:ConcGCThreads=2 -XX:ParallelGCThreads=2 -Djava.util.concurrent.ForkJoinPool.common.parallelism=2"
 
@@ -14,17 +12,6 @@ jobs:
 
       - restore_cache:
           key: checkidnumber-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum ".circleci/config.yml" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-
-      - run:
-          name: update
-          command: |
-            $ANDROID_HOME/tools/bin/sdkmanager --update
-
-      - run:
-          name: tester
-          command: |
-            ls $ANDROID_HOME/tools/bin
-
 
       - run:
           name: Permission to scripts
