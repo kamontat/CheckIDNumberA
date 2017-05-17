@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 
-# run emulation
-android list target
+# create emulation
+android create avd --name "Pixel_25" --path ./.android --device "pixel" --target 2
 
-android create avd --name "Pixel_25" --path ./.android --device "pixel" --target ""
-# -k "system-images;android-25;google_apis;x86"
+# run emulator
+emulator @Pixel_25
 
-
-# create pixel device
+# android tool 25.3.0 or later
 # $ANDROID_HOME/tools/bin/avdmanager create avd --name "Pixel_25" -d "pixel" -k "system-images;android-25;google_apis;x86"
 
 # run android test
