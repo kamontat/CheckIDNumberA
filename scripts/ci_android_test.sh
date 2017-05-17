@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
 # run emulation
-android create avd --name "Pixel_25" --path ./.android --device "pixel"
+android list target
+
+android create avd --name "Pixel_25" --path ./.android --device "pixel" --target ""
 # -k "system-images;android-25;google_apis;x86"
 
 
