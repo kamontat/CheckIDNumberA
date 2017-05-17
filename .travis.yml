@@ -14,10 +14,13 @@ android:
     - extra-google-m2repository
     - sys-img-${ANDROID_ABI}-${ANDROID_TARGET}
 
-script:
+before_script:
    - echo no | android create avd -n test -t $ANDROID_TARGET --abi $ANDROID_ABI # create avd # add  `--force` if update
    - emulator -avd test -no-skin -no-audio -no-window & # run
    - android-wait-for-emulator # wait
+
+script:
+   - adb shell input keyevent 82 & # awake
    - ./gradlew build connectedCheck # test
 
 notifications:
