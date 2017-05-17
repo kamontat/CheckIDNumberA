@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,10 +36,10 @@ public class InputFragment extends Fragment {
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.fragment_input, container, false);
 		
-		message = (TextView) view.findViewById(R.id.input_message);
-		input = (EditText) view.findViewById(R.id.input_id_number);
+		message = (TextView) view.findViewById(R.id.fragment_message);
+		input = (EditText) view.findViewById(R.id.fragment_input_id_number);
 		if (watcher != null) input.addTextChangedListener(watcher);
-		button = (Button) view.findViewById(R.id.input_btn);
+		button = (Button) view.findViewById(R.id.fragment_btn);
 		if (clickListener != null) button.setOnClickListener(clickListener);
 		
 		return view;

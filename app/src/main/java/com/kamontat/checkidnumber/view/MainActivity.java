@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ListFragment;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 					item.setChecked(true);
 					showKeyBoard();
 					return true;
-				case R.id.navigation_show:
+				case R.id.navigation_list:
 					viewPager.setCurrentItem(1);
 					item.setChecked(true);
 					hideKeyBoard();
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 				navigation.getMenu().getItem(i).setChecked(false);
 			navigation.getMenu().getItem(position).setChecked(true);
 			if (navigation.getMenu().getItem(position).getItemId() == R.id.navigation_insert) showKeyBoard();
-			else if (navigation.getMenu().getItem(position).getItemId() == R.id.navigation_show) hideKeyBoard();
+			else if (navigation.getMenu().getItem(position).getItemId() == R.id.navigation_list) hideKeyBoard();
 		}
 		
 		@Override
@@ -103,10 +104,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.export:
+			case R.id.top_menu_export:
 				
 				break;
-			case R.id.about:
+			case R.id.top_menu_about:
 				new MaterialDialog.Builder(this).title(String.format(Locale.ENGLISH, "%s %s", getResources().getString(R.string.about_title), BuildConfig.VERSION_NAME + "-build" + BuildConfig.VERSION_CODE)).content("Develop by").items(R.array.developer_name).itemsCallback(new MaterialDialog.ListCallback() {
 					@Override
 					public void onSelection(MaterialDialog dialog, android.view.View itemView, int which, CharSequence text) {
@@ -199,7 +200,23 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	
 	@Override
 	public boolean isStorageWritable() {
-		return false;
+		return isExternalStorageWritable();
+	}
+	
+	/**
+	 * Checks if external storage is available for read and write
+	 */
+	public boolean isExternalStorageWritable() {
+		String state = Environment.getExternalStorageState();
+		return Environment.MEDIA_MOUNTED.equals(state);
+	}
+	
+	/**
+	 * Checks if external storage is available to at least read
+	 */
+	public boolean isExternalStorageReadable() {
+		String state = Environment.getExternalStorageState();
+		return Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
 	}
 	
 	@Override
@@ -210,5 +227,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	@Override
 	public Context getContext() {
 		return this;
+	}
+	
+	public ViewPager getViewPager() {
+		return viewPager;
 	}
 }
