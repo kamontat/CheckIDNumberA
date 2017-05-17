@@ -64,4 +64,4 @@ jobs:
                   - "~/.gradle/buildOutputCleanup"
                   - "~/.m2"
                   - "/opt/android-sdk-linux"
-                  -
+                  - "/root/.gradle"
