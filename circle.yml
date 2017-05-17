@@ -16,15 +16,19 @@ dependencies:
     - echo -e "8403addf88ab4874007e1c1e80a0025bf2550a37\c" > ${ANDROID_HOME}/licenses/intel-android-sysimage-license
 
 test:
-  pre:
-    - emulator -avd circleci-android24 -no-window:
+  override:
+    # start the emulator
+    - emulator -avd circleci-android24 -no-audio -no-window:
         background: true
         parallel: true
+    # wait for it to have booted
     - circle-android wait-for-boot
-  override:
+    # unlock the emulator screen
+    - sleep 30
+    - adb shell input keyevent 82
     # run tests  against the emulator.
-    - ./gradlew connectedAndroidTest
+    - ./gradlew connectedAndroidTest -PdisablePreDex
     # copy the build outputs to artifacts
-    - cp -r my-project/build/outputs $CIRCLE_ARTIFACTS
+    - cp -r app/build/outputs $CIRCLE_ARTIFACTS
     # copy the test results to the test results directory.
-    - cp -r my-project/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
+    - cp -r app/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
