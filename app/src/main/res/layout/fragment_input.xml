@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/main_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context="com.kamontat.checkidnumber.view.MainActivity"
+            tools:ignore="UselessParent">
+
+        <TextView
+                android:text="@string/input_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/input_message"/>
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/input_id_number"
+                android:hint="@string/input_hint"/>
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:id="@+id/input_btn"
+                android:text="@string/enter"
+                android:layout_gravity="right"/>
+
+        <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/current_list"
+                />
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">CheckIDNumber</string>
+    <string name="title_home">Home</string>
+    <string name="title_show">List</string>
+    <string name="input_message">Input ID-Number</string>
+    <string name="input_hint">ID-Number</string>
+    <string name="enter">Enter</string>
+    <string name="title_activity_list">ListActivity</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+</resources>
