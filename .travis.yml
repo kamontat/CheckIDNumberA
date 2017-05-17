@@ -15,9 +15,10 @@ android:
     - sys-img-${ANDROID_ABI}-${ANDROID_TARGET}
 
 script:
-   - emulator -avd test -no-skin -no-audio -no-window &
-   - android-wait-for-emulator
-   - ./gradlew build connectedCheck
+   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI # create avd
+   - emulator -avd test -no-skin -no-audio -no-window & # run
+   - android-wait-for-emulator # wait
+   - ./gradlew build connectedCheck # test
 
 notifications:
   email:
