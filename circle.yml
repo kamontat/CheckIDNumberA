@@ -28,7 +28,12 @@ test:
     - adb shell input keyevent 82
     # run tests  against the emulator.
     - ./gradlew connectedAndroidTest -PdisablePreDex
-    # copy the build outputs to artifacts
-    - cp -r app/build/outputs $CIRCLE_ARTIFACTS
+    # copy apk
+    - cp -r app/build/outputs/apk $CIRCLE_ARTIFACTS
+    # copy lint html
+    - cp -r app/build/reports/lint-results.html $CIRCLE_ARTIFACTS
+    - cp -r app/build/reports/lint-results-release-fatal.html $CIRCLE_ARTIFACTS
+    # copy result html
+    - cp -r app/build/reports/androidTests/connected $CIRCLE_ARTIFACTS
     # copy the test results to the test results directory.
-    - cp -r app/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
+    - cp -r app/build/outputs/androidTest-results/connected $CIRCLE_TEST_REPORTS
