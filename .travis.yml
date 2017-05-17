@@ -1,4 +1,8 @@
 language: android
+env:
+  global:
+    - ANDROID_TARGET=android-25
+    - ANDROID_ABI=armeabi-v7a
 android:
   components:
     - tools # to get the new `repository-11.xml`
@@ -6,11 +10,13 @@ android:
     - platform-tools
     - build-tools-25.0.3
     - android-25
-
     - extra-android-m2repository
     - extra-google-m2repository
+    - sys-img-${ANDROID_ABI}-${ANDROID_TARGET}
 
 script:
+   - emulator -avd test -no-skin -no-audio -no-window &
+   - android-wait-for-emulator
    - ./gradlew build connectedCheck
 
 notifications:
