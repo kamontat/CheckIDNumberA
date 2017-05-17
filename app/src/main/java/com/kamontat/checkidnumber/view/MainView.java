@@ -1,5 +1,6 @@
 package com.kamontat.checkidnumber.view;
 
+import android.content.Context;
 import com.kamontat.checkidnumber.model.IDNumber;
 
 /**
@@ -17,4 +18,10 @@ public interface MainView {
 	void hideKeyBoard();
 	
 	void showKeyBoard();
+	
+	boolean isStorageWritable();
+	
+	IDNumber[] getIDNumbers();
+	
+	Context getContext();
 }

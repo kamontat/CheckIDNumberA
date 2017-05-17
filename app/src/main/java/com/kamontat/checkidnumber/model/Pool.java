@@ -43,4 +43,8 @@ public class Pool extends ArrayAdapter<IDNumber> {
 		
 		return super.getView(position, convertView, parent);
 	}
+	
+	public IDNumber[] getIDNumbers() {
+		return idNumbers.toArray(new IDNumber[idNumbers.size()]);
+	}
 }
