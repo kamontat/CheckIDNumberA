@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 # run emulation
-ls $ANDROID_HOME
-
+ls $ANDROID_HOME/tools/
 
 # $ANDROID_HOME/tools/bin/avdmanager -h
 # $ANDROID_HOME/tools/bin/avdmanager list

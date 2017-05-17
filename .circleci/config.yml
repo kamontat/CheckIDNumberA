@@ -16,6 +16,12 @@ jobs:
           key: checkidnumber-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum ".circleci/config.yml" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
 
       - run:
+          name: Tester
+          command: |
+            ls $ANDROID_HOME/tools/
+
+
+      - run:
           name: Permission to scripts
           command: |
             chmod 755 scripts/*
