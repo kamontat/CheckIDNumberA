@@ -31,8 +31,8 @@ test:
     # copy apk
     - cp -r app/build/outputs/apk $CIRCLE_ARTIFACTS
     # copy lint html
-    - cp -r app/build/reports/lint-results.html $CIRCLE_ARTIFACTS
-    - cp -r app/build/reports/lint-results-release-fatal.html $CIRCLE_ARTIFACTS
+    # - cp -r app/build/reports/lint-results.html $CIRCLE_ARTIFACTS
+    # - cp -r app/build/reports/lint-results-release-fatal.html $CIRCLE_ARTIFACTS
     # copy result html
     - cp -r app/build/reports/androidTests/connected $CIRCLE_ARTIFACTS
     # copy the test results to the test results directory.
