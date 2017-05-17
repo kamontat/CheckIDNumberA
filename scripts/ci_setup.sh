@@ -15,8 +15,7 @@ echo -e "8403addf88ab4874007e1c1e80a0025bf2550a37\c" > ${ANDROID_HOME}/licenses/
 ./gradlew --no-daemon --stacktrace clean -PDisableRibbon
 
 
-
-export NAME="Pixel_25"
+NAME="Pixel_25"
 
 # update android
 echo y | $ANDROID_HOME/tools/bin/sdkmanager --update
