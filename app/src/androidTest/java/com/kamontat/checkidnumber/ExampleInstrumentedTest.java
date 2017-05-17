@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-
 import com.kamontat.checkidnumber.view.MainActivity;
 import org.junit.Rule;
 import org.junit.Test;
@@ -15,7 +14,7 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Instrumentation test, which will execute on an Android device.
@@ -39,5 +38,6 @@ public class ExampleInstrumentedTest {
 	@Test
 	public void validateInputText() {
 		onView(withId(R.id.input_id_number)).perform(typeText("1000")).check(matches(withText("1000")));
+		// onView(withId(R.id.input_btn)).perform(click()).check();
 	}
 }
