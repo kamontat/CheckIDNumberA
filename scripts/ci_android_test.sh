@@ -3,7 +3,7 @@
 export ANDROID_EMULATOR_FORCE_32BIT='true'
 
 # list abi
-android list sdk --extended --no-ui --all --use-sdk-wrapper
+android list sdk --extended --no-ui --all
 
 # create emulation
 android create avd --name "Pixel_25" --device "pixel" --target 2 --abi "google_apis/x86"
