@@ -1,5 +1,6 @@
 package com.kamontat.checkidnumber.presenter;
 
+import com.kamontat.checkidnumber.model.IDNumber;
 import com.kamontat.checkidnumber.model.Pool;
 
 /**
@@ -16,5 +17,9 @@ public class MainPresenter {
 	
 	public Pool getPool() {
 		return pool;
+	}
+	
+	public void addID(IDNumber idNumber) {
+		pool.add(idNumber);
 	}
 }
