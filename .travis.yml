@@ -3,6 +3,7 @@ env:
   global:
     - ANDROID_TARGET=android-24
     - ANDROID_ABI=armeabi-v7a
+    - AVD_NAME=android_24_armeabi
 android:
   components:
     - tools # to get the new `repository-11.xml`
@@ -13,10 +14,14 @@ android:
     - extra-android-m2repository
     - extra-google-m2repository
     - sys-img-${ANDROID_ABI}-${ANDROID_TARGET}
+  licenses:
+    - '.+'
+    - android-sdk-license-.+
+    - google-gdk-license-.+
 
 before_script:
-   - echo no | android create avd -n test -t $ANDROID_TARGET --abi $ANDROID_ABI # create avd # add  `--force` if update
-   - emulator -avd test -no-skin -no-audio -no-window & # run
+   - echo no | android create avd -n $AVD_NAME -t $ANDROID_TARGET --abi $ANDROID_ABI # create avd # add  `--force` if update
+   - emulator -avd $AVD_NAME -no-audio -no-window & # run
    - android-wait-for-emulator # wait
 
 script:
@@ -28,6 +33,8 @@ notifications:
     on_success: never
     on_failure: never
   slack: idnumber:9RGUSN5JWmkwo049MuzcFjlj
+    on_success: change
+    on_success: always
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
