@@ -10,3 +10,9 @@ git checkout master -- ./app/src/test/
 
 git add .
 git commit -m "Update code from master"
+
+if [[ $1 -eq 1 ]]; then
+    git push
+fi
+
+git checkout master
