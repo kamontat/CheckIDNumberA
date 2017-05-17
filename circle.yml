@@ -7,6 +7,7 @@ machine:
 
 dependencies:
   pre:
+    - echo y | android update sdk --no-ui --all --filter tool
     - echo y | $ANDROID_HOME/tools/bin/sdkmanager --update
     - echo y | $ANDROID_HOME/tools/bin/sdkmanager --verbose "system-images;android-25;google_apis;x86"
     - mkdir -p ${ANDROID_HOME}/licenses || true
