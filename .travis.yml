@@ -1,46 +1,42 @@
 language: android
 env:
   global:
-    - ANDROID_TARGET=android-24
-    - ANDROID_ABI=armeabi-v7a
-    - AVD_NAME=android_24_armeabi
+  - ANDROID_TARGET=android-24
+  - ANDROID_ABI=armeabi-v7a
+  - AVD_NAME=android_24_armeabi
 android:
   components:
-    - tools # to get the new `repository-11.xml`
-    - tools # see https://github.com/travis-ci/travis-ci/issues/6040#issuecomment-219367943)
-    - platform-tools
-    - build-tools-25.0.3
-    - android-24
-    - extra-android-m2repository
-    - extra-google-m2repository
-    - sys-img-${ANDROID_ABI}-${ANDROID_TARGET}
+  - tools
+  - tools
+  - platform-tools
+  - build-tools-25.0.3
+  - android-24
+  - extra-android-m2repository
+  - extra-google-m2repository
+  - sys-img-${ANDROID_ABI}-${ANDROID_TARGET}
   licenses:
-    - '.+'
-    - android-sdk-license-.+
-    - google-gdk-license-.+
-
+  - ".+"
+  - android-sdk-license-.+
+  - google-gdk-license-.+
 before_script:
-   - echo no | android create avd -n $AVD_NAME -t $ANDROID_TARGET --abi $ANDROID_ABI # create avd # add  `--force` if update
-   - emulator -avd $AVD_NAME -no-audio -no-window & # run
-   - android-wait-for-emulator # wait
-
+- echo no | android create avd -n $AVD_NAME -t $ANDROID_TARGET --abi $ANDROID_ABI
+- emulator -avd $AVD_NAME -no-audio -no-window &
+- android-wait-for-emulator
 script:
-   - adb shell input keyevent 82 & # awake
-   - ./gradlew build connectedCheck # test
-
+- adb shell input keyevent 82 &
+- "./gradlew build connectedCheck"
 notifications:
-  email:
-    on_success: never
-    on_failure: never
-  slack: idnumber:9RGUSN5JWmkwo049MuzcFjlj
-    on_success: change
-    on_success: always
+  on_success: always
+  email: false
+  slack:
+    rooms:
+      secure: ZOgZzamNBh2wcK0MAENDuZ99KrF25aGGpW1+19iojrL/Q2edP8ZbkLwIGZmmQuqemwpc94Xm0Fn1N2NdAo8vgh1Im2fjB+cWnQcraTtpuIddMCFxiD1VWABY368GD+ql/wfUM19FlxyHemmiGBp5zNPypKO6q4JRDGnKY/xRm4GRVt0qh2R4nyujr8K11WkVIYh29ILkyfGawNNxSU0iXZHOVP+F3VkLfxr45J5PcZYXjZglKfdMriSml3Yhw6v2sUE2VLRK61i+3k3WTp3G/NHjzgyy8lm/0WzOPGoIGn6Q0533mHQXJk8KMT32xCXmMGp6nhRhJ185psMIlBJq3oG5G+gbCGumeSONcg3AWZTl0MlyJfTAisgtQN7DJwoPb8e7kRUyZaxoFDxVWOAee3Voa8qUYg0isDNsZrO8MwYHTX584IaidNvcae/jEpQ9M0PddqpctOuC7EbX/D8y81D84UhxBIMJnhyBJrXWrriD3vZvu7Tswl2jyMdrexuqPgXjCAmi6bpxwo2Z8+UZfkBPvbM7yl7LwaXc247mKzbcFhELEU3MVh9SEJtFEryMcTtjz7G/EWtXI0VmcZ5RDQ7QLF42yH9FrFkvevE8lipZZtN6jDAqehiSTWvHNScLlbf0Da4Pnkl/oX7LxPu93l2Zl1kstkGWUh7+zIWJqFo=
 
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-    - $HOME/.android/build-cache
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+  - "$HOME/.android/build-cache"
