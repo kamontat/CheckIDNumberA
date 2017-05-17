@@ -30,6 +30,11 @@ jobs:
           command: |
             ./scripts/ci_test.sh
 
+      - run:
+          name: Run Android Tests
+          command: |
+            ./scripts/ci_android_test.sh
+
       - store_artifacts:
           path: app/build/reports/tests/
           destination: tests_reports/
