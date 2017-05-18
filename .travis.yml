@@ -42,6 +42,7 @@
 branches:
   except:
   - master
+  - update/gradle-3-alpha
 
 notifications:
   on_success: always
