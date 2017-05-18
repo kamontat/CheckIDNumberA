@@ -13,7 +13,6 @@ android {
         versionName "1.1-beta"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         DdmPreferences.setTimeOut(60000)
-        multiDexEnabled true
     }
 
     buildTypes {
@@ -43,7 +42,6 @@ android {
 
     dexOptions {
         preDexLibraries = false
-        javaMaxHeapSize "4g"
         additionalParameters = ['--core-library']
     }
     compileOptions {
@@ -53,12 +51,12 @@ android {
 }
 
 dependencies {
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
-    compile 'org.docx4j:docx4j:3.3.3'
+
+    compile('org.docx4j:docx4j:3.3.3') {
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
     compile 'javax.xml.bind:jaxb-api:2.2.12'
     compile 'com.sun.istack:istack-commons-runtime:3.0.5'
     compile files('libs/jaxb-core-2.3.0-SNAPSHOT-ANDROID.jar')
@@ -70,8 +68,10 @@ dependencies {
     compile 'com.afollestad.material-dialogs:core:0.9.4.4'
     compile 'com.afollestad.material-dialogs:commons:0.9.4.4'
     compile 'cz.msebera.android:httpclient:4.4.1.2'
+
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.7.22'
+
     androidTestCompile('com.android.support.test:runner:0.5') {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
