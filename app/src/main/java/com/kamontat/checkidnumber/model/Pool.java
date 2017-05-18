@@ -22,6 +22,25 @@ public class Pool extends ArrayAdapter<IDNumber> {
 	
 	public Pool(@NonNull Context context) {
 		super(context, android.R.layout.two_line_list_item, android.R.id.text1);
+		this.idNumbers = new ArrayList<>();
+	}
+	
+	@Override
+	public void add(@Nullable IDNumber object) {
+		super.add(object);
+		idNumbers.add(object);
+	}
+	
+	@Override
+	public void remove(@Nullable IDNumber object) {
+		super.remove(object);
+		idNumbers.remove(object);
+	}
+	
+	@Override
+	public void clear() {
+		super.clear();
+		idNumbers.clear();
 	}
 	
 	@NonNull
