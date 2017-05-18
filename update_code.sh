@@ -6,6 +6,9 @@ git checkout feature/circle2/unit_test
 git checkout master -- ./app/src/main/
 # update test code
 git checkout master -- ./app/src/test/
+# update gradle
+git checkout master -- build.gradle
+git checkout master -- app/build.gradle
 # no need to update android
 
 git add .
