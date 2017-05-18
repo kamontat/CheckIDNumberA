@@ -50,13 +50,11 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
-
     compile 'org.docx4j:docx4j:3.3.3'
     compile 'javax.xml.bind:jaxb-api:2.2.12'
     compile 'com.sun.istack:istack-commons-runtime:3.0.5'
@@ -66,13 +64,10 @@ dependencies {
     compile files('libs/awt-bastardised-17v8.jar')
     compile files('libs/activation.jar')
     compile files('libs/additionnal.jar')
-
     compile 'com.afollestad.material-dialogs:core:0.9.4.4'
     compile 'com.afollestad.material-dialogs:commons:0.9.4.4'
-
     testCompile 'junit:junit:4.12'
-    testCompile "org.mockito:mockito-core:2.7.22"
-
+    testCompile 'org.mockito:mockito-core:2.7.22'
     androidTestCompile('com.android.support.test:runner:0.5') {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
