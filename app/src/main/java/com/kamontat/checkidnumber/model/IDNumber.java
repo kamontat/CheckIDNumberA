@@ -1,8 +1,8 @@
 package com.kamontat.checkidnumber.model;
 
 import com.kamontat.checkidnumber.api.constants.Status;
-import com.kamontat.checkidnumber.model.strategy.IDNumberStrategy;
-import com.kamontat.checkidnumber.model.strategy.ThailandIDNumberStrategy;
+import com.kamontat.checkidnumber.model.strategy.idnumber.IDNumberStrategy;
+import com.kamontat.checkidnumber.model.strategy.idnumber.ThailandIDNumberStrategy;
 
 import static com.kamontat.checkidnumber.api.constants.Status.*;
 
