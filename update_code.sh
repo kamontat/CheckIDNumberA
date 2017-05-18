@@ -26,6 +26,10 @@ function commit {
     git commit -m "$UPDATE_MESSAGE"
 }
 
+function push {
+    git push
+}
+
 function back {
     git checkout master
 }
@@ -52,5 +56,6 @@ update_code
 update_gradle
 
 commit
+push
 
 back
