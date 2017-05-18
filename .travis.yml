@@ -28,10 +28,6 @@ android:
   - google-gdk-license-.+
 
 before_script:
-  - android list avd
-  - android list target
-  - android list device
-  - android list sdk
   - echo no | android create avd -n $AVD_NAME -t "android-"$API_LEVEL --abi $ANDROID_ABI
   - emulator -avd $AVD_NAME --no-skin -no-audio -no-window &
   - android-wait-for-emulator
@@ -39,6 +35,13 @@ before_script:
 script:
   - adb shell input keyevent 82 &
   - ./gradlew build connectedCheck
+
+# Build configulation
+
+# unsupport android 25
+branches:
+  except:
+  - master
 
 notifications:
   on_success: always
