@@ -5,6 +5,7 @@ env:
     - ANDROID_BUILD_TOOLS_VERSION=25.0.3
     - ANDROID_ABI=armeabi-v7a
     - ANDROID_TAG=google_apis
+    - AVD_NAME=Google_Arm_25
     # - ADB_INSTALL_TIMEOUT=20 # minutes (2 minutes by default)
 android:
   components:
