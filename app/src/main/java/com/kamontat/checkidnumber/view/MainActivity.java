@@ -23,10 +23,14 @@ import com.kamontat.checkidnumber.adapter.ViewPagerAdapter;
 import com.kamontat.checkidnumber.api.constants.Status;
 import com.kamontat.checkidnumber.model.IDNumber;
 import com.kamontat.checkidnumber.model.Pool;
+import com.kamontat.checkidnumber.model.file.ExcelModel;
+import com.kamontat.checkidnumber.model.strategy.worksheet.DefaultWorksheetFormat;
 import com.kamontat.checkidnumber.presenter.MainPresenter;
 import com.kamontat.checkidnumber.view.fragment.InputFragment;
 
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity implements MainView {
 	private MainPresenter presenter;
@@ -104,7 +108,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.top_menu_export:
-				
+				ExecutorService service = Executors.newFixedThreadPool(1);
+				new ExcelModel(presenter).createWorkSheet("Sheet1").add(new DefaultWorksheetFormat(), getIDNumbers()).save(service, "file1.xlsx");
 				break;
 			case R.id.top_menu_about:
 				new MaterialDialog.Builder(this).title(String.format(Locale.ENGLISH, "%s %s", getResources().getString(R.string.about_title), BuildConfig.VERSION_NAME + "-build" + BuildConfig.VERSION_CODE)).content("Develop by").items(R.array.developer_name).itemsCallback(new MaterialDialog.ListCallback() {
@@ -216,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	
 	@Override
 	public IDNumber[] getIDNumbers() {
-		return new IDNumber[0];
+		return presenter.getIDNumbers();
 	}
 	
 	@Override

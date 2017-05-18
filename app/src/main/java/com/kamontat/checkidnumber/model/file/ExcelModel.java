@@ -108,7 +108,7 @@ public class ExcelModel extends Observable {
 		return e != null;
 	}
 	
-	class FileTask extends AsyncTask<String, Void, Boolean> {
+	private class FileTask extends AsyncTask<String, Void, Boolean> {
 		private ExcelModel model;
 		
 		private FileTask(ExcelModel model) {
@@ -131,7 +131,9 @@ public class ExcelModel extends Observable {
 			if (model.hadObserver()) {
 				setChanged();
 				notifyObservers(aBoolean);
+				setChanged();
 				notifyObservers(model);
+				setChanged();
 				notifyObservers();
 			} else {
 				if (isError())
