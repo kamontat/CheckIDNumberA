@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.kamontat.checkidnumber.BuildConfig;
 import com.kamontat.checkidnumber.R;
@@ -180,17 +179,13 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	
 	@Override
 	public void updateInput(IDNumber id) {
-		inputFragment.setTextColor(id.getStatus().getColor(getResources()));
 		inputFragment.setButtonEnable(id.getStatus() == Status.OK);
+		inputFragment.updateStatus(id.getStatus(), getResources());
 	}
 	
 	@Override
 	public void hideKeyBoard() {
-		View v = getWindow().getCurrentFocus();
-		if (v != null) {
-			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-		}
+		inputFragment.hideKeyBoard(this);
 	}
 	
 	@Override

@@ -24,6 +24,7 @@
                 android:inputType="number"
                 android:ems="10"
                 android:id="@+id/fragment_input_id_number"
+                android:imeOptions="actionGo"
                 android:hint="@string/input_hint"/>
 
         <TextView
