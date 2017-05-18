@@ -27,7 +27,6 @@
                 android:hint="@string/input_hint"/>
 
         <TextView
-                android:text="@string/input_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
