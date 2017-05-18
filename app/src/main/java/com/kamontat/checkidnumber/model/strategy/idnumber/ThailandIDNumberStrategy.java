@@ -1,4 +1,4 @@
-package com.kamontat.checkidnumber.model.strategy;
+package com.kamontat.checkidnumber.model.strategy.idnumber;
 
 import com.kamontat.checkidnumber.api.constants.Status;
 
