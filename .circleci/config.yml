@@ -46,9 +46,5 @@ jobs:
       - save_cache:
                 key: checkidnumber-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum ".circleci/config.yml" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
                 paths:
-                  - "~/.gradle/3.3"
-                  - "~/.gradle/wrapper/dists/gradle-3.3-bin"
-                  - "~/.gradle/caches/modules-2"
-                  - "~/.gradle/buildOutputCleanup"
+                  - "~/.gradle"
                   - "~/.m2"
-                  - "/root/.gradle"
