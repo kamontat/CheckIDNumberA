@@ -21,6 +21,11 @@ function update_gradle {
     git checkout master -- app/build.gradle
 }
 
+function update_other {
+    git checkout master -- README.md
+    git checkout master -- app/libs
+}
+
 function commit {
     git add .
     git commit -m "$UPDATE_MESSAGE"
@@ -54,6 +59,7 @@ git checkout $branch
 
 update_code
 update_gradle
+update_other
 
 commit
 push
