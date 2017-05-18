@@ -30,7 +30,10 @@ android:
   - google-gdk-license-.+
 
 before_script:
+  - android list avd
   - android list target
+  - android list device
+  - android list sdk
   - echo no | android create avd -n $AVD_NAME -t "android-$API_LEVEL" --abi $ANDROID_ABI --tag $ANDROID_TAG
   - emulator -avd $AVD_NAME --no-skin -no-audio -no-window &
   - android-wait-for-emulator
