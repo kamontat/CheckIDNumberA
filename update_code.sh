@@ -1,21 +1,49 @@
 #!/bin/bash
 
-# checkout circle2 test
-git checkout feature/circle2/unit_test
-# update main code
-git checkout master -- ./app/src/main/
-# update test code
-git checkout master -- ./app/src/test/
-# update gradle
-git checkout master -- build.gradle
-git checkout master -- app/build.gradle
-# no need to update android
+FEATURE="feature/circle2/unit_test"
+UPDATE="update/gradle-3-alpha"
+UPDATE_MESSAGE="update code from master branch!"
 
-git add .
-git commit -m "Update code from master"
+branch=
 
-if [[ $1 -eq 1 ]]; then
-    git push
+printf "1 = feature/circleci1 \n"
+printf "2 = update gradle \n"
+printf "update branch[1|2]: "
+
+read -n 1 ans
+
+if [[ $ans == 1 ]]; then
+    branch="$FEATURE"
+else 
+    branch="$UPDATE"
 fi
 
-git checkout master
+git checkout $branch
+
+update_code
+update_gradle
+
+commit
+
+back
+
+function update_code {
+    git checkout master -- ./app/src/main
+    git checkout master -- ./app/src/test 
+    git checkout master -- ./app/src/androidTest
+}
+
+function update_gradle {
+    git checkout master -- build.gradle
+    git checkout master -- app/build.gradle
+}
+
+function commit {
+    git add .
+    git commit -m "$UPDATE_MESSAGE"
+}
+
+function back {
+    git checkout master
+}
+
