@@ -45,6 +45,7 @@ function back {
 
 printf "1 = feature/circleci1 \n"
 printf "2 = update gradle \n"
+printf "3 = all \n"
 printf "update branch[1|2]: "
 
 read -n 1 ans
@@ -65,3 +66,7 @@ commit
 push
 
 back
+
+if [[ $ans == 3 ]]; then
+    echo 2 | ./update_code
+fi
