@@ -13,6 +13,8 @@ android {
         versionName "1.1-beta"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         DdmPreferences.setTimeOut(60000)
+
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -42,6 +44,7 @@ android {
 
     dexOptions {
         preDexLibraries = false
+        javaMaxHeapSize "4g"
         additionalParameters = ['--core-library']
     }
 }
