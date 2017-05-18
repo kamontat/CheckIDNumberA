@@ -32,4 +32,3 @@ public class MainInstrumentedTest {
 		return rule.getActivity().getResources();
 	}
 }
-
