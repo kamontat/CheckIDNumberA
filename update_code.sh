@@ -6,26 +6,9 @@ UPDATE_MESSAGE="update code from master branch!"
 
 branch=
 
-printf "1 = feature/circleci1 \n"
-printf "2 = update gradle \n"
-printf "update branch[1|2]: "
-
-read -n 1 ans
-
-if [[ $ans == 1 ]]; then
-    branch="$FEATURE"
-else 
-    branch="$UPDATE"
-fi
-
-git checkout $branch
-
-update_code
-update_gradle
-
-commit
-
-back
+# ------------------------------------------------
+# Function
+# ------------------------------------------------
 
 function update_code {
     git checkout master -- ./app/src/main
@@ -47,3 +30,27 @@ function back {
     git checkout master
 }
 
+# ------------------------------------------------
+# code
+# ------------------------------------------------
+
+printf "1 = feature/circleci1 \n"
+printf "2 = update gradle \n"
+printf "update branch[1|2]: "
+
+read -n 1 ans
+
+if [[ $ans == 1 ]]; then
+    branch="$FEATURE"
+else 
+    branch="$UPDATE"
+fi
+
+git checkout $branch
+
+update_code
+update_gradle
+
+commit
+
+back
