@@ -38,6 +38,8 @@ public class ExcelModel extends Observable {
 	private MainPresenter presenter;
 	private List<Exception> e;
 	
+	private String location;
+	
 	public ExcelModel(MainPresenter presenter) {
 		this.presenter = presenter;
 	}
@@ -51,6 +53,7 @@ public class ExcelModel extends Observable {
 	 */
 	public ExcelProcess setFileName(String fileName) {
 		File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName + XLS);
+		location = file.getAbsolutePath();
 		try {
 			return new ExcelProcess(Workbook.createWorkbook(file));
 		} catch (IOException e) {
@@ -205,7 +208,7 @@ public class ExcelModel extends Observable {
 				if (isError())
 					new MaterialDialog.Builder(presenter.getContext()).title("Fail").content(getStringException()).canceledOnTouchOutside(true).show();
 				else
-					new MaterialDialog.Builder(presenter.getContext()).title("Success").content("Done!").canceledOnTouchOutside(true).show();
+					new MaterialDialog.Builder(presenter.getContext()).title("Success").content("Location: " + location).canceledOnTouchOutside(true).show();
 			}
 		}
 	}
