@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 					public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
 						new ExcelModel(presenter).setFileName(input.toString()).createSheet("id-numbers").addAll(new DefaultWorksheetFormat(), getIDNumbers()).close();
 					}
-				});
+				}).negativeText(R.string.CANCEL).show();
 				break;
 			case R.id.top_menu_about:
 				new MaterialDialog.Builder(this).title(String.format(Locale.ENGLISH, "%s %s", getResources().getString(R.string.about_title), BuildConfig.VERSION_NAME + "-build" + BuildConfig.VERSION_CODE)).content("Develop by").items(R.array.developer_name).itemsCallback(new MaterialDialog.ListCallback() {
