@@ -16,4 +16,5 @@
     <string name="ok_message">OK</string>
     <string name="input_file_name_hint">Enter file name without extension (eg. .xls)</string>
     <string name="empty_string"/>
+    <string name="CANCEL">cancel</string>
 </resources>
