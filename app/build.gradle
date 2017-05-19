@@ -7,7 +7,7 @@ apply plugin: 'jacoco-android'
 // keystore.properties file, in the rootProject folder.
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def key_found = keystorePropertiesFile.exists()
-if (!key_found) {
+if (key_found) {
     // Initialize a new Properties() object called keystoreProperties.
     def keystoreProperties = new Properties()
     // Load your keystore.properties file into the keystoreProperties object.
@@ -17,7 +17,7 @@ if (!key_found) {
 android {
     signingConfigs {
         release {
-            if (!key_found) {
+            if (key_found) {
                 keyAlias keystoreProperties['keyAlias']
                 keyPassword keystoreProperties['keyPassword']
                 storeFile file(keystoreProperties['storeFile'])
@@ -45,7 +45,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            if (!key_found)
+            if (key_found)
                 signingConfig signingConfigs.release
         }
     }
