@@ -58,6 +58,7 @@ android {
 }
 
 dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
 
@@ -66,12 +67,6 @@ dependencies {
     }
     compile 'javax.xml.bind:jaxb-api:2.2.12'
     compile 'com.sun.istack:istack-commons-runtime:3.0.5'
-    compile files('libs/jaxb-core-2.3.0-SNAPSHOT-ANDROID.jar')
-    compile files('libs/jaxb-runtime-2.3.0-SNAPSHOT-ANDROID.jar')
-    compile files('libs/slf4j-android-1.7.25.jar')
-    compile files('libs/awt-bastardised-17v8.jar')
-    compile files('libs/activation.jar')
-    compile files('libs/additionnal.jar')
     compile 'com.afollestad.material-dialogs:core:0.9.4.4'
     compile 'com.afollestad.material-dialogs:commons:0.9.4.4'
     compile 'cz.msebera.android:httpclient:4.4.1.2'
