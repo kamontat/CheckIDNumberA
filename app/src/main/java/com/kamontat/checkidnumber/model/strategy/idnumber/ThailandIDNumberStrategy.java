@@ -22,9 +22,10 @@ public class ThailandIDNumberStrategy implements IDNumberStrategy {
 		if (id == null || Objects.equals(id, "")) return NOT_CREATE;
 		
 		char[] splitID = id.toCharArray();
-		if (splitID[0] == '9') {
-			return NOT_NINE;
-		}
+		
+		if (splitID[0] == '9') return NOT_NINE;
+		
+		if (splitID.length != getIDLength()) return UNMATCHED_LENGTH;
 		
 		int total = 0;
 		for (int i = 1; i <= 12; i++) {

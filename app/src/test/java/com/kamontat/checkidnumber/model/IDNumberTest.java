@@ -32,7 +32,7 @@ public class IDNumberTest {
 	
 	@Test
 	public void firstCharCannotBeNine() {
-		IDNumber id = new IDNumber("9123123123132");
+		IDNumber id = new IDNumber("91231");
 		Assert.assertEquals(Status.NOT_NINE, id.getStatus());
 	}
 	
