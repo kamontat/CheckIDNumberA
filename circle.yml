@@ -15,8 +15,8 @@ dependencies:
 
 test:
   override:
-    - (./gradlew assemble):
-        timeout: 360
+    - (./gradlew build --profile):
+        timeout: 600
     # start the emulator
     - emulator -avd circleci-android22 -no-audio -no-window:
         background: true
@@ -27,13 +27,21 @@ test:
     - sleep 30 # 30 seconds
     - adb shell input keyevent 82
     # run tests  against the emulator.
-    - ./gradlew connectedAndroidTest -PdisablePreDex
+    - ./gradlew connectedAndroidTest --profile -PdisablePreDex
+  post:
     # copy apk
     - cp -r app/build/outputs/apk $CIRCLE_ARTIFACTS
     # copy lint html
-    # - cp -r app/build/reports/lint-results.html $CIRCLE_ARTIFACTS
-    # - cp -r app/build/reports/lint-results-release-fatal.html $CIRCLE_ARTIFACTS
+    - cp -r app/build/reports/lint-results.html $CIRCLE_ARTIFACTS
+    - cp -r app/build/reports/lint-results-release-fatal.html $CIRCLE_ARTIFACTS
     # copy result html
     - cp -r app/build/reports/androidTests/connected $CIRCLE_ARTIFACTS
+    # copy profile html
+    - cp -r build/reports/profile $CIRCLE_ARTIFACTS
+    - cp -r reports $CIRCLE_ARTIFACTS
+    # copy coverage
+    - cp -r app/build/reports/coverage $CIRCLE_ARTIFACTS
     # copy the test results to the test results directory.
     - cp -r app/build/outputs/androidTest-results/connected $CIRCLE_TEST_REPORTS
+      # code cov
+    - bash <(curl -s https://codecov.io/bash)
