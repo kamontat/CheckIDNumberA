@@ -35,7 +35,7 @@ before_script:
 
 script:
   - adb shell input keyevent 82 &
-  - ./gradlew connectedAndroidTest -PdisablePreDex
+  - ./ci_test.sh
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

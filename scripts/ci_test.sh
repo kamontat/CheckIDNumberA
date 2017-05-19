@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
 
 # run unit test
-./gradlew --no-daemon --stacktrace build -PDisableRibbon
+echo "--------------------------- Starting Android Test ---------------------------"
+
+./gradlew connectedAndroidTest --profile -PdisablePreDex
+
+echo "--------------------------- Starting Compile APK for Release ---------------------------"
+
+./gradlew assembleRelease --profile -PdisablePreDex
