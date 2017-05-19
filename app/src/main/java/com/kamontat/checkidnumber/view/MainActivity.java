@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
@@ -116,7 +117,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.top_menu_export:
-				new ExcelModel(presenter).setFileName("file1").createSheet("sheet1").addAll(new DefaultWorksheetFormat(), getIDNumbers()).close();
+				new MaterialDialog.Builder(this).title("Create (XLS) file").inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS).inputRangeRes(1, 50, R.color.colorError).input(R.string.input_file_name_hint, R.string.empty_string, false, new MaterialDialog.InputCallback() {
+					@Override
+					public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+						new ExcelModel(presenter).setFileName(input.toString()).createSheet("id-numbers").addAll(new DefaultWorksheetFormat(), getIDNumbers()).close();
+					}
+				});
 				break;
 			case R.id.top_menu_about:
 				new MaterialDialog.Builder(this).title(String.format(Locale.ENGLISH, "%s %s", getResources().getString(R.string.about_title), BuildConfig.VERSION_NAME + "-build" + BuildConfig.VERSION_CODE)).content("Develop by").items(R.array.developer_name).itemsCallback(new MaterialDialog.ListCallback() {
