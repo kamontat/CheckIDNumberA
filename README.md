@@ -3,9 +3,9 @@
 ## Test
 |Title|Badge|Comments|
 |:---:|:---:|:------:|
-|Code coverage Test(Android) - Codecov|[![Codecov](https://img.shields.io/codecov/c/github/kamontat/CheckIDNumberA/master.svg?style=flat-square)](https://codecov.io/gh/kamontat/CheckIDNumberA)| - |
+|Code coverage Test(Android) - Codecov|[![Codecov](https://img.shields.io/codecov/c/github/kamontat/CheckIDNumberA/master.svg?maxAge=2592000&style=flat-square)](https://codecov.io/gh/kamontat/CheckIDNumberA)| - |
 |Android Test - Circle-ci(1)|[![CircleCI](https://img.shields.io/circleci/project/github/kamontat/CheckIDNumberA/master.svg?maxAge=2592000&style=flat-square)](https://circleci.com/gh/kamontat/CheckIDNumberA)| Android-22 |
-|Code coverage Test(Junit) - Codecov|[![Codecov](https://img.shields.io/codecov/c/github/kamontat/CheckIDNumberA/feature%2Fcircle2%2Funit_test.svg?maxAge=2592000?style=flat-square)](https://codecov.io/gh/kamontat/CheckIDNumberA)| - |
+|Code coverage Test(Junit) - Codecov|[![Codecov](https://img.shields.io/codecov/c/github/kamontat/CheckIDNumberA/feature%2Fcircle2%2Funit_test.svg?maxAge=2592000&style=flat-square)](https://codecov.io/gh/kamontat/CheckIDNumberA)| - |
 |Junit Test - Circle-ci(2)|[![CircleCI](https://img.shields.io/circleci/project/github/kamontat/CheckIDNumberA/feature%2Fcircle2%2Funit_test.svg?maxAge=2592000&style=flat-square)](https://circleci.com/gh/kamontat/CheckIDNumberA/tree/feature%2Fcircle2%2Funit_test)| - |
 |Android Test - Travis|[![Build Status](https://img.shields.io/travis/kamontat/CheckIDNumberA/master.svg?maxAge=2592000&style=flat-square)](https://travis-ci.org/kamontat/CheckIDNumberA)| Android-25 |
 
