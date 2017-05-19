@@ -34,8 +34,6 @@ import com.kamontat.checkidnumber.presenter.MainPresenter;
 import com.kamontat.checkidnumber.view.fragment.InputFragment;
 
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity implements MainView {
 	public static boolean EXPORT_FEATURE = true;
@@ -118,8 +116,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.top_menu_export:
-				ExecutorService service = Executors.newFixedThreadPool(1);
-				new ExcelModel(presenter).createWorkSheet("Sheet1").add(new DefaultWorksheetFormat(), getIDNumbers()).save(service, "file1.xlsx");
+				new ExcelModel(presenter).setFileName("file1").createSheet("sheet1").addAll(new DefaultWorksheetFormat(), getIDNumbers()).close();
 				break;
 			case R.id.top_menu_about:
 				new MaterialDialog.Builder(this).title(String.format(Locale.ENGLISH, "%s %s", getResources().getString(R.string.about_title), BuildConfig.VERSION_NAME + "-build" + BuildConfig.VERSION_CODE)).content("Develop by").items(R.array.developer_name).itemsCallback(new MaterialDialog.ListCallback() {
