@@ -1,6 +1,11 @@
 package com.kamontat.checkidnumber.model.file;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Environment;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.kamontat.checkidnumber.model.IDNumber;
 import com.kamontat.checkidnumber.model.strategy.worksheet.WorksheetFormat;
@@ -36,6 +41,10 @@ public class ExcelModel extends Observable {
 	
 	public ExcelModel(MainPresenter presenter) {
 		this.presenter = presenter;
+	}
+	
+	public Exception getException() {
+		return e;
 	}
 	
 	public ExcelModel createWorkSheet(String sheetName) {
@@ -90,9 +99,12 @@ public class ExcelModel extends Observable {
 	
 	private boolean load(String fileName) {
 		if (isError()) return false;
-		File file = new File(presenter.getContext().getExternalFilesDir(null), fileName);
+		if (!checkPermission() && !presenter.requestPermission()) return false;
+		
+		File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
 		try {
 			sheetPackage.save(file);
+			Log.i("RESULT FILE LOCATION", file.getAbsolutePath());
 			return true;
 		} catch (Docx4JException e) {
 			this.e = e;
@@ -106,6 +118,13 @@ public class ExcelModel extends Observable {
 	
 	private boolean isError() {
 		return e != null;
+	}
+	
+	
+	private boolean checkPermission() {
+		int permissionCheck = ContextCompat.checkSelfPermission(presenter.getContext(), Manifest.permission.WRITE_CALENDAR);
+		Log.d("PERMISSION", String.valueOf(permissionCheck == PackageManager.PERMISSION_GRANTED));
+		return permissionCheck == PackageManager.PERMISSION_GRANTED;
 	}
 	
 	private class FileTask extends AsyncTask<String, Void, Boolean> {

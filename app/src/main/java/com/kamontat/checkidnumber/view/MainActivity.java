@@ -37,6 +37,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity implements MainView {
+	public static boolean EXPORT_FEATURE = true;
 	public static final int PERMISSION_CODE = 1;
 	private MainPresenter presenter;
 	private String header;
@@ -100,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 		
 		setViewPaperAdapter();
+		requestPermission();
 	}
 	
 	@Override
@@ -127,6 +129,22 @@ public class MainActivity extends AppCompatActivity implements MainView {
 				break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		toggleExportFeature(menu);
+		return super.onPrepareOptionsMenu(menu);
+	}
+	
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		switch (requestCode) {
+			case PERMISSION_CODE:
+				EXPORT_FEATURE = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+				break;
+		}
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 	}
 	
 	private void setViewPaperAdapter() {
@@ -231,9 +249,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
 			// Should we show an explanation?
 			if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 				new MaterialDialog.Builder(this).title("No write file permission").content("Can't export result").canceledOnTouchOutside(true).show();
+				EXPORT_FEATURE = false;
 				return false;
 			} else {
 				ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_CODE);
+				EXPORT_FEATURE = true;
 				return true;
 			}
 		}
@@ -252,5 +272,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	
 	public ViewPager getViewPager() {
 		return viewPager;
+	}
+	
+	public void toggleExportFeature(Menu menu) {
+		menu.findItem(R.id.top_menu_export).setVisible(EXPORT_FEATURE);
 	}
 }
