@@ -1,13 +1,17 @@
 package com.kamontat.checkidnumber.view;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ListFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -33,6 +37,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity implements MainView {
+	public static final int PERMISSION_CODE = 1;
 	private MainPresenter presenter;
 	private String header;
 	
@@ -217,6 +222,22 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	public boolean isExternalStorageReadable() {
 		String state = Environment.getExternalStorageState();
 		return Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
+	}
+	
+	@Override
+	public boolean requestPermission() {
+		// Here, thisActivity is the current activity
+		if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+			// Should we show an explanation?
+			if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+				new MaterialDialog.Builder(this).title("No write file permission").content("Can't export result").canceledOnTouchOutside(true).show();
+				return false;
+			} else {
+				ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_CODE);
+				return true;
+			}
+		}
+		return true;
 	}
 	
 	@Override
