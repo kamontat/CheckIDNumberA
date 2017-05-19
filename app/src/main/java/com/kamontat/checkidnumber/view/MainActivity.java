@@ -16,6 +16,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -102,6 +103,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		
 		setViewPaperAdapter();
 		requestPermission();
+		
+		Log.d("UI THREAD", Thread.currentThread().toString());
 	}
 	
 	@Override
