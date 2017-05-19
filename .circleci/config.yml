@@ -26,22 +26,18 @@ jobs:
       - run:
           name: Run Tests
           command: |
-            ./scripts/ci_test.sh
+            ./gradlew --no-daemon --stacktrace test -PDisableRibbon
 
       - store_artifacts:
-          path: app/build/reports/tests/
-          destination: tests_reports/
+          path: app/build/reports/tests/testDebugUnitTest
+          destination: tests_reports_debug/
 
       - store_artifacts:
-          path: app/build/reports/~
-          destination: lint_results/
+          path: app/build/reports/tests/testReleaseUnitTest
+          destination: tests_reports_release/
 
       - store_test_results:
           path: "app/build/test-results/testDebugUnitTest/"
-
-      - store_artifacts:
-            path: app/build/outputs/apk/
-            destination: apks/
 
       - save_cache:
                 key: checkidnumber-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum ".circleci/config.yml" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
