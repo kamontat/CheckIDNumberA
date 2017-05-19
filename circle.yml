@@ -30,18 +30,18 @@ test:
     - ./gradlew connectedAndroidTest --profile -PdisablePreDex
   post:
     # copy apk
-    - cp -r app/build/outputs/apk $CIRCLE_ARTIFACTS
+    - if [[ -d app/build/outputs/apk ]]; then cp -r app/build/outputs/apk $CIRCLE_ARTIFACTS; fi
     # copy lint html
-    - cp -r app/build/reports/lint-results.html $CIRCLE_ARTIFACTS
-    - cp -r app/build/reports/lint-results-release-fatal.html $CIRCLE_ARTIFACTS
+    - if [[ -f app/build/reports/lint-results.html ]]; then cp -r app/build/reports/lint-results.html $CIRCLE_ARTIFACTS; fi
+    - if [[ -f app/build/reports/lint-results-release-fatal.html ]]; then cp -r app/build/reports/lint-results-release-fatal.html $CIRCLE_ARTIFACTS; fi
     # copy result html
-    - cp -r app/build/reports/androidTests/connected $CIRCLE_ARTIFACTS
+    - if [[ -d app/build/reports/androidTests/connected ]]; then cp -r app/build/reports/androidTests/connected $CIRCLE_ARTIFACTS; fi
     # copy profile html
-    - cp -r build/reports/profile $CIRCLE_ARTIFACTS
-    - cp -r reports $CIRCLE_ARTIFACTS
+    - if [[ -d build/reports/profile ]]; then cp -r build/reports/profile $CIRCLE_ARTIFACTS; fi
+    - if [[ -d reports ]]; then cp -r reports $CIRCLE_ARTIFACTS; fi
     # copy coverage
-    - cp -r app/build/reports/coverage $CIRCLE_ARTIFACTS
+    - if [[ -d app/build/reports/coverage ]]; then cp -r app/build/reports/coverage $CIRCLE_ARTIFACTS
     # copy the test results to the test results directory.
-    - cp -r app/build/outputs/androidTest-results/connected $CIRCLE_TEST_REPORTS
+    - if [[ -d app/build/outputs/androidTest-results/connected ]]; then cp -r app/build/outputs/androidTest-results/connected $CIRCLE_TEST_REPORTS
       # code cov
     - bash <(curl -s https://codecov.io/bash)
