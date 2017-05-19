@@ -58,18 +58,14 @@ android {
 }
 
 dependencies {
+    // local library
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    // android design
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
-
-    compile('org.docx4j:docx4j:3.3.3') {
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-    }
-    compile 'javax.xml.bind:jaxb-api:2.2.12'
-    compile 'com.sun.istack:istack-commons-runtime:3.0.5'
+    // dialog
     compile 'com.afollestad.material-dialogs:core:0.9.4.4'
     compile 'com.afollestad.material-dialogs:commons:0.9.4.4'
-    compile 'cz.msebera.android:httpclient:4.4.1.2'
 
     testCompile 'com.dicedmelon.gradle:jacoco-android:0.1.1'
     testCompile 'junit:junit:4.12'

@@ -16,7 +16,6 @@ import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
-import org.docx4j.openpackaging.packages.SpreadsheetMLPackage;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,8 +37,6 @@ public class ExcelModel extends Observable {
 	
 	private MainPresenter presenter;
 	private List<Exception> e;
-	
-	private SpreadsheetMLPackage sheetPackage;
 	
 	public ExcelModel(MainPresenter presenter) {
 		this.presenter = presenter;
@@ -130,10 +127,10 @@ public class ExcelModel extends Observable {
 			
 			public void add(WorksheetFormat<IDNumber, DefaultWorksheetFormat.PositionValue> format, IDNumber id, int atRow) {
 				if (isError()) return;
-				DefaultWorksheetFormat.PositionValue[] vs = format.getCellsInRow(0, id);
+				DefaultWorksheetFormat.PositionValue[] vs = format.getCellsInRow(atRow + 1, id);
 				try {
+					Log.i("READ ID", vs[0].getValue());
 					for (DefaultWorksheetFormat.PositionValue v : vs) {
-						Log.i("READ ID", v.getValue());
 						sheet.addCell(new Label(v.getColumn(), atRow, v.getValue()));
 					}
 				} catch (WriteException e1) {
