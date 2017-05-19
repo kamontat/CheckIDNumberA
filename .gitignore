@@ -7,5 +7,6 @@
 /build
 /captures
 .externalNativeBuild
+keystore.properties
 
 *.hprof
