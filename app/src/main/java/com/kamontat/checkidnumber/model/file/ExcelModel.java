@@ -239,9 +239,9 @@ public class ExcelModel extends Observable {
 			String fail = presenter.getContext().getResources().getString(R.string.fail);
 			if (result) {
 				if (autoClear) presenter.getPool().clear();
-				new MaterialDialog.Builder(presenter.getContext()).title(success).content("Location: " + location).canceledOnTouchOutside(true).show();
+				new MaterialDialog.Builder(presenter.getContext()).title(success).content("Location: " + location).negativeText(R.string.cancel_message).canceledOnTouchOutside(true).show();
 			} else
-				new MaterialDialog.Builder(presenter.getContext()).title(fail).content(getStringException()).canceledOnTouchOutside(true).show();
+				new MaterialDialog.Builder(presenter.getContext()).title(fail).content(getStringException()).negativeText(R.string.cancel_message).canceledOnTouchOutside(true).show();
 		}
 	}
 }
