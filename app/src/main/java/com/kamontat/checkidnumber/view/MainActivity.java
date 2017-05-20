@@ -30,6 +30,8 @@ import com.kamontat.checkidnumber.model.Pool;
 import com.kamontat.checkidnumber.presenter.MainPresenter;
 import com.kamontat.checkidnumber.view.fragment.InputFragment;
 
+import java.util.*;
+
 public class MainActivity extends AppCompatActivity implements MainView {
 	public static boolean EXPORT_FEATURE = true;
 	public static final int PERMISSION_CODE = 1;
@@ -270,8 +272,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	}
 	
 	public void toggleExportFeatureMenu(Menu menu) {
+		String title = String.format(Locale.ENGLISH, "%s %d id (%s)", getResources().getString(R.string.export), presenter.getPool().getCount(), getResources().getString(R.string.xls));
 		toggleExportFeature();
 		menu.findItem(R.id.top_menu_export).setVisible(EXPORT_FEATURE);
+		menu.findItem(R.id.top_menu_export).setTitle(title);
+		menu.findItem(R.id.top_menu_export).setEnabled(presenter.getPool().getCount() > 0);
 	}
 	
 	public void toggleExportFeature() {
