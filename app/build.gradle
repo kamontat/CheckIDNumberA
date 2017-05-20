@@ -7,9 +7,9 @@ apply plugin: 'jacoco-android'
 // keystore.properties file, in the rootProject folder.
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def key_found = keystorePropertiesFile.exists()
+def keystoreProperties = new Properties()
 if (key_found) {
     // Initialize a new Properties() object called keystoreProperties.
-    def keystoreProperties = new Properties()
     // Load your keystore.properties file into the keystoreProperties object.
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
