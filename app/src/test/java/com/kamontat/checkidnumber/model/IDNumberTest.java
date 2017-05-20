@@ -1,5 +1,6 @@
 package com.kamontat.checkidnumber.model;
 
+import com.kamontat.checkidnumber.MainJunitTest;
 import com.kamontat.checkidnumber.api.constants.Status;
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,15 +13,15 @@ import org.junit.Test;
 public class IDNumberTest {
 	@Test
 	public void shouldOK() {
-		IDNumber id = new IDNumber("1100600361966");
+		IDNumber id = new IDNumber(MainJunitTest.VALIDATE_ID);
 		Assert.assertEquals(Status.OK, id.getStatus());
 	}
 	
 	@Test
 	public void shouldUnmatched() {
-		IDNumber id1 = new IDNumber("1234123414");
+		IDNumber id1 = new IDNumber(MainJunitTest.INVALIDATE_ID_UNMATCHED_LENGTH_UPPER_BOUND);
 		Assert.assertEquals(Status.UNMATCHED_LENGTH, id1.getStatus());
-		IDNumber id2 = new IDNumber("123412341234123");
+		IDNumber id2 = new IDNumber(MainJunitTest.INVALIDATE_ID_UNMATCHED_LENGTH_LOWER_BOUND);
 		Assert.assertEquals(Status.UNMATCHED_LENGTH, id2.getStatus());
 	}
 	
@@ -32,19 +33,25 @@ public class IDNumberTest {
 	
 	@Test
 	public void firstCharCannotBeNine() {
-		IDNumber id = new IDNumber("91231");
-		Assert.assertEquals(Status.NOT_NINE, id.getStatus());
+		IDNumber id1 = new IDNumber(MainJunitTest.INVALIDATE_ID_NOT_NINE_LOWER_BOUND);
+		Assert.assertEquals(Status.NOT_NINE, id1.getStatus());
+		
+		IDNumber id2 = new IDNumber(MainJunitTest.INVALIDATE_ID_NOT_NINE_NORMAL_BOUND);
+		Assert.assertEquals(Status.NOT_NINE, id2.getStatus());
+		
+		IDNumber id3 = new IDNumber(MainJunitTest.INVALIDATE_ID_NOT_NINE_UPPER_BOUND);
+		Assert.assertEquals(Status.NOT_NINE, id3.getStatus());
 	}
 	
 	@Test
 	public void shouldUnCorrect() {
-		IDNumber id = new IDNumber("1100600361961");
+		IDNumber id = new IDNumber(MainJunitTest.INVALIDATE_ID_UNCORRECTED);
 		Assert.assertEquals(Status.UNCORRECTED, id.getStatus());
 	}
 	
 	@Test
 	public void shouldCheckWhenSetNewID() {
-		IDNumber id = new IDNumber("1100600361966");
+		IDNumber id = new IDNumber(MainJunitTest.VALIDATE_ID);
 		Assert.assertEquals(Status.OK, id.getStatus());
 		id.setId("1000");
 		Assert.assertEquals(Status.UNMATCHED_LENGTH, id.getStatus());
