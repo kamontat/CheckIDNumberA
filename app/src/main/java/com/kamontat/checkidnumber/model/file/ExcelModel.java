@@ -1,11 +1,7 @@
 package com.kamontat.checkidnumber.model.file;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.kamontat.checkidnumber.model.IDNumber;
 import com.kamontat.checkidnumber.model.strategy.worksheet.DefaultWorksheetFormat;
@@ -128,7 +124,7 @@ public class ExcelModel extends Observable {
 		
 		private boolean forceClose() {
 			if (isError()) return false;
-			if (presenter != null && !checkPermission() && !presenter.requestPermission()) return false;
+			if (presenter != null && !presenter.checkPermission() && !presenter.requestPermission()) return false;
 			try {
 				workbook.write();
 			} catch (IOException e1) {
@@ -211,13 +207,6 @@ public class ExcelModel extends Observable {
 		notifyObservers();
 	}
 	
-	
-	private boolean checkPermission() {
-		int permissionCheck = ContextCompat.checkSelfPermission(presenter.getContext(), Manifest.permission.WRITE_CALENDAR);
-		Log.d("PERMISSION", String.valueOf(permissionCheck == PackageManager.PERMISSION_GRANTED));
-		return permissionCheck == PackageManager.PERMISSION_GRANTED;
-	}
-	
 	private class FileTask extends AsyncTask<ExcelProcess, Void, Boolean> {
 		private ExcelModel model;
 		
@@ -237,12 +226,13 @@ public class ExcelModel extends Observable {
 		}
 		
 		@Override
-		protected void onPostExecute(Boolean aBoolean) {
-			super.onPostExecute(aBoolean);
-			if (isError())
-				new MaterialDialog.Builder(presenter.getContext()).title("Fail").content(getStringException()).canceledOnTouchOutside(true).show();
-			else
+		protected void onPostExecute(Boolean result) {
+			super.onPostExecute(result);
+			if (result) {
+				presenter.getPool().clear();
 				new MaterialDialog.Builder(presenter.getContext()).title("Success").content("Location: " + location).canceledOnTouchOutside(true).show();
+			} else
+				new MaterialDialog.Builder(presenter.getContext()).title("Fail").content(getStringException()).canceledOnTouchOutside(true).show();
 		}
 	}
 }

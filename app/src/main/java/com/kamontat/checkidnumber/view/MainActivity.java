@@ -2,9 +2,7 @@ package com.kamontat.checkidnumber.view;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -23,7 +21,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.kamontat.checkidnumber.BuildConfig;
 import com.kamontat.checkidnumber.R;
 import com.kamontat.checkidnumber.adapter.ViewPagerAdapter;
 import com.kamontat.checkidnumber.api.constants.Status;
@@ -33,8 +30,6 @@ import com.kamontat.checkidnumber.model.file.ExcelModel;
 import com.kamontat.checkidnumber.model.strategy.worksheet.DefaultWorksheetFormat;
 import com.kamontat.checkidnumber.presenter.MainPresenter;
 import com.kamontat.checkidnumber.view.fragment.InputFragment;
-
-import java.util.*;
 
 public class MainActivity extends AppCompatActivity implements MainView {
 	public static boolean EXPORT_FEATURE = true;
@@ -125,13 +120,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 				}).negativeText(R.string.CANCEL).show();
 				break;
 			case R.id.top_menu_about:
-				new MaterialDialog.Builder(this).title(String.format(Locale.ENGLISH, "%s %s", getResources().getString(R.string.about_title), BuildConfig.VERSION_NAME + "-build" + BuildConfig.VERSION_CODE)).content("Develop by").items(R.array.developer_name).itemsCallback(new MaterialDialog.ListCallback() {
-					@Override
-					public void onSelection(MaterialDialog dialog, android.view.View itemView, int which, CharSequence text) {
-						Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.developer_github)));
-						startActivity(browserIntent);
-					}
-				}).positiveText(R.string.ok_message).canceledOnTouchOutside(true).show();
+				// TODO: 5/20/2017 AD  
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -139,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		toggleExportFeature(menu);
+		toggleExportFeatureMenu(menu);
 		return super.onPrepareOptionsMenu(menu);
 	}
 	
@@ -147,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		switch (requestCode) {
 			case PERMISSION_CODE:
-				EXPORT_FEATURE = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+				toggleExportFeature();
 				break;
 		}
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -159,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		inputFragment.setInputListener(getInputTextChange());
 		
 		listFragment = new ListFragment();
-		listFragment.setListAdapter(presenter.getPool()); // mockup
+		listFragment.setListAdapter(presenter.getPool());
 		
 		ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 		adapter.addFragment(inputFragment);
@@ -249,17 +238,23 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	}
 	
 	@Override
+	public boolean checkPermission() {
+		int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+		return permissionCheck == PackageManager.PERMISSION_GRANTED;
+	}
+	
+	@Override
 	public boolean requestPermission() {
 		// Here, thisActivity is the current activity
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+		if (checkPermission()) {
 			// Should we show an explanation?
 			if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 				new MaterialDialog.Builder(this).title("No write file permission").content("Can't export result").canceledOnTouchOutside(true).show();
-				EXPORT_FEATURE = false;
+				toggleExportFeature();
 				return false;
 			} else {
 				ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_CODE);
-				EXPORT_FEATURE = true;
+				toggleExportFeature();
 				return true;
 			}
 		}
@@ -280,7 +275,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		return viewPager;
 	}
 	
-	public void toggleExportFeature(Menu menu) {
+	public void toggleExportFeatureMenu(Menu menu) {
+		toggleExportFeature();
 		menu.findItem(R.id.top_menu_export).setVisible(EXPORT_FEATURE);
+	}
+	
+	public void toggleExportFeature() {
+		EXPORT_FEATURE = checkPermission();
 	}
 }

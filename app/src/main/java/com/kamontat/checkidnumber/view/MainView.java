@@ -25,5 +25,7 @@ public interface MainView {
 	
 	Context getContext();
 	
+	boolean checkPermission();
+	
 	boolean requestPermission();
 }

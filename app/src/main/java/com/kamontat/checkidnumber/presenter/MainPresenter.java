@@ -42,4 +42,8 @@ public class MainPresenter {
 	public boolean requestPermission() {
 		return view.requestPermission();
 	}
+	
+	public boolean checkPermission() {
+		return view.checkPermission();
+	}
 }
