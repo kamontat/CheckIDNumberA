@@ -30,4 +30,7 @@
     <string name="input_file_name_hint">file name \'only\'</string>
     <string name="export_content">Program will create your excel file on \'Download\' folder</string>
     <string name="empty_string"/>
+
+    <string name="success">Success</string>
+    <string name="fail">Fail</string>
 </resources>
