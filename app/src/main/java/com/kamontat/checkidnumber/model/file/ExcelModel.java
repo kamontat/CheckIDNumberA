@@ -11,6 +11,7 @@ import com.kamontat.checkidnumber.model.IDNumber;
 import com.kamontat.checkidnumber.model.strategy.worksheet.DefaultWorksheetFormat;
 import com.kamontat.checkidnumber.model.strategy.worksheet.WorksheetFormat;
 import com.kamontat.checkidnumber.presenter.MainPresenter;
+import jxl.CellView;
 import jxl.Workbook;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
@@ -39,6 +40,7 @@ public class ExcelModel extends Observable {
 	private List<Exception> e;
 	
 	private String location;
+	private boolean autoSize;
 	
 	public ExcelModel(MainPresenter presenter) {
 		this.presenter = presenter;
@@ -62,6 +64,28 @@ public class ExcelModel extends Observable {
 		}
 	}
 	
+	/**
+	 * create file
+	 *
+	 * @param f
+	 * 		file {@link File}
+	 * @return this
+	 */
+	public ExcelProcess setFile(File f) {
+		location = f.getAbsolutePath();
+		try {
+			return new ExcelProcess(Workbook.createWorkbook(f));
+		} catch (IOException e) {
+			this.e.add(e);
+			return new ExcelProcess();
+		}
+	}
+	
+	public ExcelModel setAutoSize(boolean enable) {
+		autoSize = enable;
+		return this;
+	}
+	
 	public synchronized ExcelModel addObservers(Observer o) {
 		super.addObserver(o);
 		return this;
@@ -72,6 +96,7 @@ public class ExcelModel extends Observable {
 	}
 	
 	public String getStringException() {
+		if (!isError()) return "";
 		StringBuilder sb = new StringBuilder();
 		for (Exception e : this.e) {
 			if (sb.length() == 0) sb.append(e.getMessage());
@@ -96,15 +121,14 @@ public class ExcelModel extends Observable {
 			else return new SheetProcess(workbook.createSheet(name, workbook.getNumberOfSheets()));
 		}
 		
-		public void close() {
+		private void close() {
 			ExecutorService service = Executors.newCachedThreadPool();
 			new FileTask(ExcelModel.this).executeOnExecutor(service, this);
 		}
 		
-		public boolean forceClose() {
+		private boolean forceClose() {
 			if (isError()) return false;
-			if (!checkPermission() && !presenter.requestPermission()) return false;
-			
+			if (presenter != null && !checkPermission() && !presenter.requestPermission()) return false;
 			try {
 				workbook.write();
 			} catch (IOException e1) {
@@ -115,6 +139,7 @@ public class ExcelModel extends Observable {
 			} catch (IOException | WriteException e1) {
 				e.add(e1);
 			}
+			if (hadObserver()) notifyAllObserver();
 			return !isError();
 		}
 		
@@ -128,17 +153,19 @@ public class ExcelModel extends Observable {
 				this.sheet = sheet;
 			}
 			
-			public void add(WorksheetFormat<IDNumber, DefaultWorksheetFormat.PositionValue> format, IDNumber id, int atRow) {
-				if (isError()) return;
+			public SheetProcess add(WorksheetFormat<IDNumber, DefaultWorksheetFormat.PositionValue> format, IDNumber id, int atRow) {
+				if (isError()) return this;
 				DefaultWorksheetFormat.PositionValue[] vs = format.getCellsInRow(atRow + 1, id);
 				try {
-					Log.i("READ ID", vs[0].getValue());
+					// Log.i("READ ID", vs[0].getValue());
 					for (DefaultWorksheetFormat.PositionValue v : vs) {
 						sheet.addCell(new Label(v.getColumn(), atRow, v.getValue()));
+						if (autoSize) setAutoSize(sheet, v.getColumn());
 					}
 				} catch (WriteException e1) {
 					e.add(e1);
 				}
+				return this;
 			}
 			
 			public SheetProcess addAll(WorksheetFormat<IDNumber, DefaultWorksheetFormat.PositionValue> format, IDNumber[] ids) {
@@ -161,12 +188,27 @@ public class ExcelModel extends Observable {
 		}
 	}
 	
+	private void setAutoSize(WritableSheet sheet, int column) {
+		CellView autoSize = new CellView();
+		autoSize.setAutosize(true);
+		sheet.setColumnView(column, autoSize);
+	}
+	
 	private boolean hadObserver() {
 		return countObservers() > 0;
 	}
 	
 	private boolean isError() {
 		return e != null && e.size() > 0;
+	}
+	
+	private void notifyAllObserver() {
+		setChanged();
+		notifyObservers(!isError());
+		setChanged();
+		notifyObservers(this);
+		setChanged();
+		notifyObservers();
 	}
 	
 	
@@ -190,26 +232,17 @@ public class ExcelModel extends Observable {
 		
 		@Override
 		protected Boolean doInBackground(ExcelProcess[] str) {
-			Log.d("SAVE FILE THREAD", Thread.currentThread().toString());
+			// Log.d("SAVE FILE THREAD", Thread.currentThread().toString());
 			return str[0].forceClose();
 		}
 		
 		@Override
 		protected void onPostExecute(Boolean aBoolean) {
 			super.onPostExecute(aBoolean);
-			if (model.hadObserver()) {
-				setChanged();
-				notifyObservers(aBoolean);
-				setChanged();
-				notifyObservers(model);
-				setChanged();
-				notifyObservers();
-			} else {
-				if (isError())
-					new MaterialDialog.Builder(presenter.getContext()).title("Fail").content(getStringException()).canceledOnTouchOutside(true).show();
-				else
-					new MaterialDialog.Builder(presenter.getContext()).title("Success").content("Location: " + location).canceledOnTouchOutside(true).show();
-			}
+			if (isError())
+				new MaterialDialog.Builder(presenter.getContext()).title("Fail").content(getStringException()).canceledOnTouchOutside(true).show();
+			else
+				new MaterialDialog.Builder(presenter.getContext()).title("Success").content("Location: " + location).canceledOnTouchOutside(true).show();
 		}
 	}
 }
