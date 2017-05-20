@@ -13,7 +13,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
@@ -25,10 +24,9 @@ import com.kamontat.checkidnumber.R;
 import com.kamontat.checkidnumber.adapter.ViewPagerAdapter;
 import com.kamontat.checkidnumber.api.constants.Status;
 import com.kamontat.checkidnumber.api.getter.About;
+import com.kamontat.checkidnumber.api.getter.Export;
 import com.kamontat.checkidnumber.model.IDNumber;
 import com.kamontat.checkidnumber.model.Pool;
-import com.kamontat.checkidnumber.model.file.ExcelModel;
-import com.kamontat.checkidnumber.model.strategy.worksheet.DefaultWorksheetFormat;
 import com.kamontat.checkidnumber.presenter.MainPresenter;
 import com.kamontat.checkidnumber.view.fragment.InputFragment;
 
@@ -113,12 +111,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.top_menu_export:
-				new MaterialDialog.Builder(this).title("Create (XLS) file").inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS).inputRangeRes(1, 50, R.color.colorError).input(R.string.input_file_name_hint, R.string.empty_string, false, new MaterialDialog.InputCallback() {
-					@Override
-					public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-						new ExcelModel(presenter).setFileName(input.toString()).createSheet("id-numbers").addAll(new DefaultWorksheetFormat(), getIDNumbers()).close();
-					}
-				}).negativeText(R.string.cancel_message).show();
+				new Export(presenter).show();
 				break;
 			case R.id.top_menu_about:
 				new About(this).show();
