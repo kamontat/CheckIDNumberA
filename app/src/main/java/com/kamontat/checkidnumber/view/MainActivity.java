@@ -24,6 +24,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.kamontat.checkidnumber.R;
 import com.kamontat.checkidnumber.adapter.ViewPagerAdapter;
 import com.kamontat.checkidnumber.api.constants.Status;
+import com.kamontat.checkidnumber.api.getter.About;
 import com.kamontat.checkidnumber.model.IDNumber;
 import com.kamontat.checkidnumber.model.Pool;
 import com.kamontat.checkidnumber.model.file.ExcelModel;
@@ -117,10 +118,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
 					public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
 						new ExcelModel(presenter).setFileName(input.toString()).createSheet("id-numbers").addAll(new DefaultWorksheetFormat(), getIDNumbers()).close();
 					}
-				}).negativeText(R.string.CANCEL).show();
+				}).negativeText(R.string.cancel_message).show();
 				break;
 			case R.id.top_menu_about:
-				// TODO: 5/20/2017 AD  
+				new About(this).show();
 				break;
 		}
 		return super.onOptionsItemSelected(item);
