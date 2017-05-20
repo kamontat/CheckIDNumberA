@@ -27,7 +27,7 @@ public class ThailandIDNumberStrategyTest {
 	
 	@Test
 	public void shouldOK() throws Exception {
-		Status s = strategy.checking("110060036196");
+		Status s = strategy.checking("1100600361966");
 		Assert.assertEquals(s, Status.OK);
 	}
 	

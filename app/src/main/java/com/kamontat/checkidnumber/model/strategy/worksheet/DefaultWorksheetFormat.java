@@ -1,23 +1,33 @@
 package com.kamontat.checkidnumber.model.strategy.worksheet;
 
 import com.kamontat.checkidnumber.model.IDNumber;
-import org.xlsx4j.jaxb.Context;
-import org.xlsx4j.sml.Cell;
 
 /**
  * @author kamontat
  * @version 1.0
  * @since Thu 18/May/2017 - 2:55 PM
  */
-public class DefaultWorksheetFormat implements WorksheetFormat<IDNumber> {
+public class DefaultWorksheetFormat implements WorksheetFormat<IDNumber, DefaultWorksheetFormat.PositionValue> {
 	@Override
-	public Cell[] getCellsInRow(long id, IDNumber idNumber) {
-		Cell numberCell = Context.getsmlObjectFactory().createCell();
-		numberCell.setV(String.valueOf(id));
+	public PositionValue[] getCellsInRow(long id, IDNumber idNumber) {
+		return new PositionValue[]{new PositionValue(0, String.valueOf(id)), new PositionValue(1, idNumber.getId())};
+	}
+	
+	public class PositionValue {
+		private int column;
+		private String value;
 		
-		Cell idCell = Context.getsmlObjectFactory().createCell();
-		idCell.setV(idNumber.getId());
+		private PositionValue(int column, String value) {
+			this.column = column;
+			this.value = value;
+		}
 		
-		return new Cell[]{numberCell, idCell};
+		public int getColumn() {
+			return column;
+		}
+		
+		public String getValue() {
+			return value;
+		}
 	}
 }

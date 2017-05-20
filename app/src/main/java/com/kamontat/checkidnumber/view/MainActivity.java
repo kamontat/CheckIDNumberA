@@ -1,38 +1,38 @@
 package com.kamontat.checkidnumber.view;
 
+import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ListFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.kamontat.checkidnumber.BuildConfig;
 import com.kamontat.checkidnumber.R;
 import com.kamontat.checkidnumber.adapter.ViewPagerAdapter;
 import com.kamontat.checkidnumber.api.constants.Status;
+import com.kamontat.checkidnumber.api.getter.About;
+import com.kamontat.checkidnumber.api.getter.Export;
 import com.kamontat.checkidnumber.model.IDNumber;
 import com.kamontat.checkidnumber.model.Pool;
-import com.kamontat.checkidnumber.model.file.ExcelModel;
-import com.kamontat.checkidnumber.model.strategy.worksheet.DefaultWorksheetFormat;
 import com.kamontat.checkidnumber.presenter.MainPresenter;
 import com.kamontat.checkidnumber.view.fragment.InputFragment;
 
-import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 public class MainActivity extends AppCompatActivity implements MainView {
+	public static boolean EXPORT_FEATURE = true;
+	public static final int PERMISSION_CODE = 1;
 	private MainPresenter presenter;
 	private String header;
 	
@@ -95,6 +95,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 		
 		setViewPaperAdapter();
+		requestPermission();
+		
+		Log.d("UI THREAD", Thread.currentThread().toString());
 	}
 	
 	@Override
@@ -108,20 +111,29 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.top_menu_export:
-				ExecutorService service = Executors.newFixedThreadPool(1);
-				new ExcelModel(presenter).createWorkSheet("Sheet1").add(new DefaultWorksheetFormat(), getIDNumbers()).save(service, "file1.xlsx");
+				new Export(presenter).show();
 				break;
 			case R.id.top_menu_about:
-				new MaterialDialog.Builder(this).title(String.format(Locale.ENGLISH, "%s %s", getResources().getString(R.string.about_title), BuildConfig.VERSION_NAME + "-build" + BuildConfig.VERSION_CODE)).content("Develop by").items(R.array.developer_name).itemsCallback(new MaterialDialog.ListCallback() {
-					@Override
-					public void onSelection(MaterialDialog dialog, android.view.View itemView, int which, CharSequence text) {
-						Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.developer_github)));
-						startActivity(browserIntent);
-					}
-				}).positiveText(R.string.ok_message).canceledOnTouchOutside(true).show();
+				new About(this).show();
 				break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		toggleExportFeatureMenu(menu);
+		return super.onPrepareOptionsMenu(menu);
+	}
+	
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		switch (requestCode) {
+			case PERMISSION_CODE:
+				toggleExportFeature();
+				break;
+		}
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 	}
 	
 	private void setViewPaperAdapter() {
@@ -130,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		inputFragment.setInputListener(getInputTextChange());
 		
 		listFragment = new ListFragment();
-		listFragment.setListAdapter(presenter.getPool()); // mockup
+		listFragment.setListAdapter(presenter.getPool());
 		
 		ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 		adapter.addFragment(inputFragment);
@@ -220,6 +232,30 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	}
 	
 	@Override
+	public boolean checkPermission() {
+		int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+		return permissionCheck == PackageManager.PERMISSION_GRANTED;
+	}
+	
+	@Override
+	public boolean requestPermission() {
+		// Here, thisActivity is the current activity
+		if (checkPermission()) {
+			// Should we show an explanation?
+			if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+				new MaterialDialog.Builder(this).title("No write file permission").content("Can't export result").canceledOnTouchOutside(true).show();
+				toggleExportFeature();
+				return false;
+			} else {
+				ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_CODE);
+				toggleExportFeature();
+				return true;
+			}
+		}
+		return true;
+	}
+	
+	@Override
 	public IDNumber[] getIDNumbers() {
 		return presenter.getIDNumbers();
 	}
@@ -231,5 +267,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	
 	public ViewPager getViewPager() {
 		return viewPager;
+	}
+	
+	public void toggleExportFeatureMenu(Menu menu) {
+		toggleExportFeature();
+		menu.findItem(R.id.top_menu_export).setVisible(EXPORT_FEATURE);
+	}
+	
+	public void toggleExportFeature() {
+		EXPORT_FEATURE = checkPermission();
 	}
 }

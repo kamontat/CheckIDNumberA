@@ -138,13 +138,6 @@ public class IDNumber {
 	 * @return if pass return true, otherwise return false
 	 */
 	private boolean isIDCorrect() {
-		if (id.length() <= 0) {
-			status = NOT_CREATE;
-			return false;
-		} else if (id.length() != strategy.getIDLength()) {
-			status = UNMATCHED_LENGTH;
-			return false;
-		}
 		status = strategy.checking(id);
 		return status == OK;
 	}

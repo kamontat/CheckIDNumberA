@@ -24,4 +24,8 @@ public interface MainView {
 	IDNumber[] getIDNumbers();
 	
 	Context getContext();
+	
+	boolean checkPermission();
+	
+	boolean requestPermission();
 }

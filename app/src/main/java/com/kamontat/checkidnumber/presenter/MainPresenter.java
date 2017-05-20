@@ -38,4 +38,12 @@ public class MainPresenter {
 	public Context getContext() {
 		return view.getContext();
 	}
+	
+	public boolean requestPermission() {
+		return view.requestPermission();
+	}
+	
+	public boolean checkPermission() {
+		return view.checkPermission();
+	}
 }
