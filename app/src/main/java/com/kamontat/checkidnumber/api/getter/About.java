@@ -16,7 +16,7 @@ import java.util.*;
  * @since Sat 20/May/2017 - 3:10 PM
  */
 public class About implements Showable {
-	private static final String VERSION = String.format(Locale.ENGLISH, "%s", BuildConfig.VERSION_NAME + "-build" + BuildConfig.VERSION_CODE);
+	private static final String VERSION = String.format(Locale.ENGLISH, "v%s-build: %s", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE);
 	private Activity root;
 	
 	public About(Activity root) {
@@ -32,7 +32,7 @@ public class About implements Showable {
 	}
 	
 	private String getContent() {
-		return VERSION + "\nDevelop by";
+		return root.getResources().getString(R.string.app_description) + "\n\n" + VERSION + "\n\nDevelop by";
 	}
 	
 	private MaterialDialog.ListCallback getCallBack() {
