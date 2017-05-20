@@ -3,10 +3,7 @@ package com.kamontat.checkidnumber;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.ListFragment;
-import android.support.v4.view.ViewPager;
 import com.kamontat.checkidnumber.view.MainActivity;
 import com.kamontat.checkidnumber.view.fragment.InputFragment;
 import org.hamcrest.Matchers;
@@ -20,7 +17,9 @@ import static android.support.test.espresso.Espresso.openActionBarOverflowOrOpti
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static com.kamontat.checkidnumber.MainInstrumentedTest.getCurrentFragment;
 import static com.kamontat.checkidnumber.MainInstrumentedTest.getResources;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -36,19 +35,19 @@ public class PageInstrumentedTest {
 	@Test
 	public void swipeToChangePage() throws Exception {
 		onView(withId(R.id.container)).perform(ViewActions.swipeLeft());
-		assertTrue(getCurrentFragment().getClass().equals(ListFragment.class));
+		assertTrue(getCurrentFragment(activityTestRule).getClass().equals(ListFragment.class));
 		
 		onView(withId(R.id.container)).perform(ViewActions.swipeRight());
-		assertTrue(getCurrentFragment().getClass().equals(InputFragment.class));
+		assertTrue(getCurrentFragment(activityTestRule).getClass().equals(InputFragment.class));
 	}
 	
 	@Test
 	public void clickToChangePage() throws Exception {
 		onView(withId(R.id.navigation_list)).perform(click());
-		assertTrue(getCurrentFragment().getClass().equals(ListFragment.class));
+		assertTrue(getCurrentFragment(activityTestRule).getClass().equals(ListFragment.class));
 		
 		onView(withId(R.id.navigation_insert)).perform(click());
-		assertTrue(getCurrentFragment().getClass().equals(InputFragment.class));
+		assertTrue(getCurrentFragment(activityTestRule).getClass().equals(InputFragment.class));
 	}
 	
 	@Test
@@ -59,14 +58,8 @@ public class PageInstrumentedTest {
 	}
 	
 	@Test
-	public void checkExport() throws Exception {
-		// openActionBarOverflowOrOptionsMenu(getContext());
-		// onView(withText(getResources(activityTestRule).getString(R.string.export_xls))).perform(click());
-		// not implement yet!
-	}
-	
-	private Fragment getCurrentFragment() {
-		ViewPager p = activityTestRule.getActivity().getViewPager();
-		return ((FragmentStatePagerAdapter) p.getAdapter()).getItem(p.getCurrentItem());
+	public void checkExportDisable() throws Exception {
+		openActionBarOverflowOrOptionsMenu(getContext());
+		onView(withText(Matchers.startsWith(getResources(activityTestRule).getString(R.string.export)))).check(matches(not(isClickable())));
 	}
 }
