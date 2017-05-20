@@ -1,1 +1,22 @@
-Hi 
+Hi, ...name... 
+
+## Kind
+
+- [ ] Bug
+- [ ] Security
+- [ ] Improvement
+- [ ] Enhancement
+- [ ] Other...
+
+## Detail
+
+...
+
+## Environment
+- device: ...device...
+- android API: ...android_API...
+- app version: ...version...
+
+## Other comment
+
+...
