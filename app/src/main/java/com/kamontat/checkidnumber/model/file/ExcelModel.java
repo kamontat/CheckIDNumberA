@@ -37,6 +37,7 @@ public class ExcelModel extends Observable {
 	
 	private String location;
 	private boolean autoSize;
+	private boolean autoClear;
 	
 	public ExcelModel(MainPresenter presenter) {
 		this.presenter = presenter;
@@ -79,6 +80,11 @@ public class ExcelModel extends Observable {
 	
 	public ExcelModel setAutoSize(boolean enable) {
 		autoSize = enable;
+		return this;
+	}
+	
+	public ExcelModel setAutoClear(boolean enable) {
+		autoClear = enable;
 		return this;
 	}
 	
@@ -229,7 +235,7 @@ public class ExcelModel extends Observable {
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
 			if (result) {
-				presenter.getPool().clear();
+				if (autoClear) presenter.getPool().clear();
 				new MaterialDialog.Builder(presenter.getContext()).title("Success").content("Location: " + location).canceledOnTouchOutside(true).show();
 			} else
 				new MaterialDialog.Builder(presenter.getContext()).title("Fail").content(getStringException()).canceledOnTouchOutside(true).show();
