@@ -86,7 +86,7 @@ public class InputFragment extends Fragment {
 	}
 	
 	public void showKeyboard(Activity activity) {
-		if (input.requestFocus()) {
+		if (input != null && input.requestFocus()) {
 			InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
 			imm.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
 		}
