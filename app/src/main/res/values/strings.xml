@@ -11,7 +11,9 @@
     <string name="input_hint">ID-Number</string>
     <string name="enter">Enter</string>
 
-    <string name="export_xls">Export (xls)</string>
+    <string name="export">Export</string>
+    <string name="xls">xls</string>
+
     <string name="about">About</string>
 
     <string name="about_title">About This App</string>
@@ -28,4 +30,9 @@
     <string name="input_file_name_hint">file name \'only\'</string>
     <string name="export_content">Program will create your excel file on \'Download\' folder</string>
     <string name="empty_string"/>
+
+    <string name="success">Success</string>
+    <string name="fail">Fail</string>
+
+    <string name="default_sheet_name">id-numbers</string>
 </resources>

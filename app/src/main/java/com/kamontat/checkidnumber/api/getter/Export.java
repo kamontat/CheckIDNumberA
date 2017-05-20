@@ -51,7 +51,7 @@ public class Export implements Showable {
 			public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
 				ExcelModel m = new ExcelModel(root).setAutoSize(true);
 				if (dialog.isPromptCheckBoxChecked()) m = m.setAutoClear(true);
-				m.setFileName(input.toString()).createSheet("id-numbers").addAll(new DefaultWorksheetFormat(), root.getIDNumbers()).close();
+				m.setFileName(input.toString()).createSheet(root.getContext().getResources().getString(R.string.default_sheet_name)).addAll(new DefaultWorksheetFormat(), root.getIDNumbers()).close();
 			}
 		};
 	}

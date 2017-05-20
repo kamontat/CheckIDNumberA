@@ -3,6 +3,7 @@ package com.kamontat.checkidnumber.model.file;
 import android.os.AsyncTask;
 import android.os.Environment;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.kamontat.checkidnumber.R;
 import com.kamontat.checkidnumber.model.IDNumber;
 import com.kamontat.checkidnumber.model.strategy.worksheet.DefaultWorksheetFormat;
 import com.kamontat.checkidnumber.model.strategy.worksheet.WorksheetFormat;
@@ -234,11 +235,13 @@ public class ExcelModel extends Observable {
 		@Override
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
+			String success = presenter.getContext().getResources().getString(R.string.success);
+			String fail = presenter.getContext().getResources().getString(R.string.fail);
 			if (result) {
 				if (autoClear) presenter.getPool().clear();
-				new MaterialDialog.Builder(presenter.getContext()).title("Success").content("Location: " + location).canceledOnTouchOutside(true).show();
+				new MaterialDialog.Builder(presenter.getContext()).title(success).content("Location: " + location).negativeText(R.string.cancel_message).canceledOnTouchOutside(true).show();
 			} else
-				new MaterialDialog.Builder(presenter.getContext()).title("Fail").content(getStringException()).canceledOnTouchOutside(true).show();
+				new MaterialDialog.Builder(presenter.getContext()).title(fail).content(getStringException()).negativeText(R.string.cancel_message).canceledOnTouchOutside(true).show();
 		}
 	}
 }
