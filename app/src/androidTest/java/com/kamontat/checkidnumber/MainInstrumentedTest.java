@@ -1,12 +1,23 @@
 package com.kamontat.checkidnumber;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.os.Build;
+import android.os.RemoteException;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.rule.ActivityTestRule;
+import android.support.test.uiautomator.UiDevice;
+import android.support.test.uiautomator.UiObject;
+import android.support.test.uiautomator.UiObjectNotFoundException;
+import android.support.test.uiautomator.UiSelector;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import com.kamontat.checkidnumber.model.IDNumber;
@@ -14,6 +25,7 @@ import com.kamontat.checkidnumber.view.MainActivity;
 import com.kamontat.checkidnumber.view.fragment.InputFragment;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -33,6 +45,12 @@ import static org.junit.Assert.assertTrue;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({InputInstrumentedTest.class, PageInstrumentedTest.class, ExportFeatureInstrumentTest.class})
 public class MainInstrumentedTest {
+	
+	@Rule
+	public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
+	
+	static final String APP_PACKAGE = "com.kamontat.checkidnumber";
+	
 	static final String SIMPLE_INT = "1234";
 	static final String SIMPLE_STRING = "asdf";
 	static final String EMPTY_STRING = "";
@@ -62,7 +80,7 @@ public class MainInstrumentedTest {
 		Thread.sleep(Math.round(second * 1000));
 	}
 	
-	public static Resources getResources(ActivityTestRule rule) {
+	public static Resources getResources(ActivityTestRule<MainActivity> rule) {
 		return rule.getActivity().getResources();
 	}
 	
@@ -150,5 +168,32 @@ public class MainInstrumentedTest {
 	 */
 	public static IDNumber[] getIDNumbers() {
 		return new IDNumber[]{new IDNumber(VALIDATE_ID), new IDNumber(VALIDATE_ID_1), new IDNumber(VALIDATE_ID_2), new IDNumber(VALIDATE_ID_3)};
+	}
+	
+	public static void allowPermissionsIfNeeded(String permissionNeeded) {
+		try {
+			if (Build.VERSION.SDK_INT >= 23 && InstrumentationRegistry.getContext().checkSelfPermission(permissionNeeded) != PackageManager.PERMISSION_GRANTED) {
+				UiDevice e = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+				UiObject allowPermissions = e.findObject((new UiSelector()).clickable(true).checkable(false).index(1));
+				if (allowPermissions.exists()) {
+					allowPermissions.click();
+				}
+				// wake device
+				e.wakeUp();
+			}
+		} catch (UiObjectNotFoundException var3) {
+			Log.e("Barista", "There is no permissions dialog to interact with", var3);
+		} catch (RemoteException e) {
+			Log.e("Barista", "Remote error", e);
+		}
+	}
+	
+	private static void launchApp() {
+		// Launch the app
+		Context context = InstrumentationRegistry.getContext();
+		final Intent intent = context.getPackageManager().getLaunchIntentForPackage(APP_PACKAGE);
+		// Clear out any previous instances
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		context.startActivity(intent);
 	}
 }

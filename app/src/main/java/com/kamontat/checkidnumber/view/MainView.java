@@ -27,5 +27,12 @@ public interface MainView {
 	
 	boolean checkPermission();
 	
-	boolean requestPermission();
+	/**
+	 * @return <ul>
+	 * <li>0 - already have permission</li>
+	 * <li>1 - on requesting permission</li>
+	 * <li>2 - deny before</li>
+	 * </ul>
+	 */
+	int requestPermission();
 }

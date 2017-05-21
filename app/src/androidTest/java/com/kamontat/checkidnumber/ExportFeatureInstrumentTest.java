@@ -1,7 +1,9 @@
 package com.kamontat.checkidnumber;
 
+import android.Manifest;
 import android.os.Environment;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,7 +44,7 @@ public class ExportFeatureInstrumentTest {
 	private static final File FILE_LOCATION = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), FILE_NAME + ".xls");
 	
 	@Rule
-	public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
+	public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 	
 	@Test
 	public void exportSize() throws Exception {
@@ -59,6 +61,8 @@ public class ExportFeatureInstrumentTest {
 		int actualSize = activityTestRule.getActivity().getIDNumbers().length;
 		openActionBarOverflowOrOptionsMenu(activityTestRule.getActivity());
 		onView(withText(Matchers.containsString(actualSize + " id"))).perform(click());
+		
+		allowPermissionsIfNeeded(Manifest.permission.WRITE_EXTERNAL_STORAGE);
 		
 		onView(withText(R.string.export_title)).check(matches(isDisplayed()));
 	}
@@ -94,6 +98,7 @@ public class ExportFeatureInstrumentTest {
 		editText.check(matches(withText(FILE_NAME)));
 		// check save btn, should enable now
 		checkSaveBtn(true);
+		clickSave();
 	}
 	
 	@Test
@@ -112,7 +117,6 @@ public class ExportFeatureInstrumentTest {
 	
 	private void real_export(boolean dateMustExist) throws InterruptedException, IOException, BiffException {
 		// click ok
-		ViewInteraction okBtn = onView(withId(com.afollestad.materialdialogs.R.id.md_buttonDefaultPositive)).perform(click());
 		MainInstrumentedTest.wait(1.0); // wait create file 1 second
 		// check output
 		onView(withId(com.afollestad.materialdialogs.R.id.md_title)).check(matches(withText(R.string.success)));
@@ -136,7 +140,7 @@ public class ExportFeatureInstrumentTest {
 		workbook.close();
 	}
 	
-	public Sheet checkSheetName(Workbook workbook) throws IOException, BiffException {
+	private Sheet checkSheetName(Workbook workbook) throws IOException, BiffException {
 		assertTrue(workbook.getSheets().length > 0);
 		for (String name : workbook.getSheetNames()) {
 			if (name.equals(getResources(activityTestRule).getString(R.string.default_sheet_name))) {
@@ -147,7 +151,7 @@ public class ExportFeatureInstrumentTest {
 		return null;
 	}
 	
-	public void checkSheetData(Sheet sheet, IDNumber[] ids) throws IOException, BiffException {
+	private void checkSheetData(Sheet sheet, IDNumber[] ids) throws IOException, BiffException {
 		int i = 0;
 		for (IDNumber id : ids) {
 			Cell cellID = sheet.getCell(0, i); // column, row
@@ -164,6 +168,10 @@ public class ExportFeatureInstrumentTest {
 		ViewInteraction okBtn = onView(withId(com.afollestad.materialdialogs.R.id.md_buttonDefaultPositive));
 		if (check) okBtn.check(matches(isEnabled()));
 		else okBtn.check(matches(not(isEnabled())));
+	}
+	
+	private void clickSave() {
+		onView(withId(com.afollestad.materialdialogs.R.id.md_buttonDefaultPositive)).perform(ViewActions.click());
 	}
 	
 	private void checkCheckBoxIs(ViewInteraction checkBox, boolean check) {

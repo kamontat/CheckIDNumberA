@@ -94,6 +94,12 @@ android {
     }
     productFlavors {
     }
+
+    jacocoAndroidUnitTestReport {
+        csv.enabled false
+        html.enabled true
+        xml.enabled true
+    }
 }
 
 dependencies {
@@ -108,6 +114,7 @@ dependencies {
     testCompile 'com.dicedmelon.gradle:jacoco-android:0.1.1'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.7.22'
+    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
     androidTestCompile('com.android.support.test:runner:0.5') {
         exclude group: 'com.android.support', module: 'support-annotations'
     }

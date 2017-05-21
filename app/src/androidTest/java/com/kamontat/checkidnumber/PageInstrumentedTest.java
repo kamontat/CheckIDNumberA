@@ -29,8 +29,9 @@ import static org.junit.Assert.assertTrue;
  */
 @RunWith(AndroidJUnit4.class)
 public class PageInstrumentedTest {
+	
 	@Rule
-	public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
+	public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 	
 	@Test
 	public void swipeToChangePage() throws Exception {
