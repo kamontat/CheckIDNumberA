@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
+		// Log.d("REQUEST PERMISSION", String.valueOf(requestPermission()));
 		toggleExportFeatureMenu(menu);
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -242,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	@Override
 	public boolean requestPermission() {
 		// Here, thisActivity is the current activity
-		if (checkPermission()) {
+		if (!checkPermission()) {
 			// Should we show an explanation?
 			if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 				new MaterialDialog.Builder(this).title("No write file permission").content("Can't export result").canceledOnTouchOutside(true).show();
