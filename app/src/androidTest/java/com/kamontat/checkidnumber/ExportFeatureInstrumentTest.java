@@ -5,6 +5,7 @@ import android.os.Environment;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
+import android.support.v7.view.menu.MenuItemImpl;
 import android.view.View;
 import android.widget.AdapterView;
 import com.kamontat.checkidnumber.model.IDNumber;
@@ -16,10 +17,8 @@ import jxl.Workbook;
 import jxl.read.biff.BiffException;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -47,7 +46,6 @@ public class ExportFeatureInstrumentTest {
 	@Rule
 	public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 	
-	@Ignore
 	@Test
 	public void exportSize() throws Exception {
 		multipleAddID();
@@ -57,16 +55,19 @@ public class ExportFeatureInstrumentTest {
 		
 		// can't test in integration
 		openActionBarOverflowOrOptionsMenu(activityTestRule.getActivity());
-		onView(withText(Matchers.containsString(actualSize + " id"))).check(matches(isDisplayed()));
+		getExportBtn();
+	}
+	
+	private ViewInteraction getExportBtn() {
+		return onData(is(instanceOf(MenuItemImpl.class))).atPosition(0).check(matches(isDisplayed()));
 	}
 	
 	@Test
 	public void try_clickExportShouldShowDialog() throws Exception {
 		multipleAddID();
 		
-		int actualSize = activityTestRule.getActivity().getIDNumbers().length;
 		openActionBarOverflowOrOptionsMenu(activityTestRule.getActivity());
-		onView(withText(Matchers.containsString(actualSize + " id"))).perform(click());
+		getExportBtn().perform(click());
 		
 		allowPermissionsIfNeeded(Manifest.permission.WRITE_EXTERNAL_STORAGE);
 		
