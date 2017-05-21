@@ -70,8 +70,6 @@ public class ExportFeatureInstrumentTest {
 		getExportBtn().perform(click());
 		
 		allowPermissionsIfNeeded(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-		
-		onView(withText(R.string.export_title)).check(matches(isDisplayed()));
 	}
 	
 	@Test
