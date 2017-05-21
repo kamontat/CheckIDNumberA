@@ -7,5 +7,4 @@
     <color name="colorWarning">#ffa200</color>
     <color name="colorError">#ff0900</color>
     <color name="colorCorrect">#00cc25</color>
-    <color name="colorTextDefault">#000000</color>
 </resources>
