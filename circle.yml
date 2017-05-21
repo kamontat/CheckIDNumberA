@@ -31,12 +31,12 @@ test:
     - ./scripts/ci_test.sh
   post:
     # copy apk
-    - if [[ -d app/build/outputs/apk ]]; then cp -r app/build/outputs/apk $CIRCLE_ARTIFACTS; fi
+    - if [[ -d app/build/outputs/apk ]]; then cp -r app/build/outputs/apk $CIRCLE_ARTIFACTS; echo "exist"; fi
     # copy report html
-    - if [[ -f app/build/reports ]]; then cp -r app/build/reports $CIRCLE_ARTIFACTS; fi
+    - if [[ -f app/build/reports ]]; then cp -r app/build/reports $CIRCLE_ARTIFACTS; echo "exist";fi
     # copy profile
-    - if [[ -d build/reports/profile ]]; then cp -r build/reports/profile $CIRCLE_ARTIFACTS; fi
+    - if [[ -d build/reports/profile ]]; then cp -r build/reports/profile $CIRCLE_ARTIFACTS; echo "exist"; fi
     # copy the test results to the test results directory.
-    - if [[ -d app/build/outputs/androidTest-results/connected ]]; then cp -r app/build/outputs/androidTest-results/connected $CIRCLE_TEST_REPORTS; fi
+    - if [[ -d app/build/outputs/androidTest-results/connected ]]; then cp -r app/build/outputs/androidTest-results/connected $CIRCLE_TEST_REPORTS; echo "exist"; fi
       # code cov
     - bash <(curl -s https://codecov.io/bash)
