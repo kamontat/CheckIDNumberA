@@ -1,6 +1,7 @@
 package com.kamontat.checkidnumber;
 
 import android.content.Context;
+import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -28,17 +29,17 @@ import static org.junit.Assert.assertEquals;
 public class InputInstrumentedTest {
 	// Preferred JUnit 4 mechanism of specifying the activity to be launched before each swipeToChangePage
 	@Rule
-	public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
+	public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 	
 	@Test
 	public void useAppContext() throws Exception {
 		// Context of the app under swipeToChangePage.
 		Context appContext = InstrumentationRegistry.getTargetContext();
-		assertEquals("com.kamontat.checkidnumber", appContext.getPackageName());
+		assertEquals(APP_PACKAGE, appContext.getPackageName());
 	}
 	
 	@Test
-	public void validateInputText() {
+	public void validateInputText() throws RemoteException {
 		onView(withId(R.id.fragment_input_id_number)).perform(typeText(SIMPLE_INT)).check(matches(withText(SIMPLE_INT)));
 	}
 	
