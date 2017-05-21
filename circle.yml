@@ -19,7 +19,7 @@ test:
     - (./gradlew build --profile):
         timeout: 600
     # start the emulator
-    - emulator -avd circleci-android22 -no-audio -no-window:
+    - emulator -avd circleci-android22 -no-audio:
         background: true
         parallel: true
     # wait for it to have booted
