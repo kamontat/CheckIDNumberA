@@ -1,5 +1,6 @@
 package com.kamontat.checkidnumber;
 
+import android.Manifest;
 import android.os.Environment;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
@@ -60,6 +61,8 @@ public class ExportFeatureInstrumentTest {
 		int actualSize = activityTestRule.getActivity().getIDNumbers().length;
 		openActionBarOverflowOrOptionsMenu(activityTestRule.getActivity());
 		onView(withText(Matchers.containsString(actualSize + " id"))).perform(click());
+		
+		allowPermissionsIfNeeded(Manifest.permission.WRITE_EXTERNAL_STORAGE);
 		
 		onView(withText(R.string.export_title)).check(matches(isDisplayed()));
 	}

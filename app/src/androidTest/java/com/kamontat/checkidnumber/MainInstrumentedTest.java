@@ -1,6 +1,5 @@
 package com.kamontat.checkidnumber;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,8 +9,10 @@ import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
-import android.support.test.uiautomator.*;
+import android.support.test.uiautomator.UiDevice;
+import android.support.test.uiautomator.UiObject;
+import android.support.test.uiautomator.UiObjectNotFoundException;
+import android.support.test.uiautomator.UiSelector;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.ListFragment;
@@ -25,7 +26,6 @@ import com.kamontat.checkidnumber.view.fragment.InputFragment;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -43,24 +43,11 @@ import static org.junit.Assert.assertTrue;
  * @since Thu 18/May/2017 - 1:07 AM
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({MainInstrumentedTest.InitialActivity.class, InputInstrumentedTest.class, PageInstrumentedTest.class, ExportFeatureInstrumentTest.class})
+@Suite.SuiteClasses({InputInstrumentedTest.class, PageInstrumentedTest.class, ExportFeatureInstrumentTest.class})
 public class MainInstrumentedTest {
 	
 	@Rule
 	public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
-	
-	@RunWith(AndroidJUnit4.class)
-	public static class InitialActivity {
-		@Rule
-		public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
-		
-		@Test
-		public void requestPermission() throws Exception {
-			launchApp();
-			UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).wait(Until.hasObject(By.pkg(APP_PACKAGE).depth(0)), SLEEP_CONSTANT);
-			allowPermissionsIfNeeded(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-		}
-	}
 	
 	static final String APP_PACKAGE = "com.kamontat.checkidnumber";
 	
