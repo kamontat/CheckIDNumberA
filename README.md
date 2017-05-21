@@ -16,14 +16,14 @@ saving id-number for **android version**, it have made because my mother need so
 ### Android Test
 |Title|Badge|Comments|
 |:---:|:---:|:------:|
-|Circle-ci(1)|[![CircleCI](https://img.shields.io/circleci/project/github/kamontat/CheckIDNumberA/master.svg?maxAge=2592000&style=flat-square)](https://circleci.com/gh/kamontat/CheckIDNumberA)| Android-22 |
-|Travis|[![Build Status](https://img.shields.io/travis/kamontat/CheckIDNumberA/master.svg?maxAge=2592000&style=flat-square)](https://travis-ci.org/kamontat/CheckIDNumberA)| Android-25 |
+|Circle-ci(1)|[![CircleCI](https://img.shields.io/circleci/project/github/kamontat/CheckIDNumberA/master.svg?style=flat-square)](https://circleci.com/gh/kamontat/CheckIDNumberA)| Android-22 |
+|Travis|[![Build Status](https://img.shields.io/travis/kamontat/CheckIDNumberA/master.svg?style=flat-square)](https://travis-ci.org/kamontat/CheckIDNumberA)| Android-25 |
 
 ### Code Coverage
 |Title|Badge|Comments|
 |:---:|:---:|:------:|
-|AndroidTest - Codecov|[![Codecov](https://img.shields.io/codecov/c/github/kamontat/CheckIDNumberA/master.svg?maxAge=2592000&style=flat-square)](https://codecov.io/gh/kamontat/CheckIDNumberA/branch/master)| - |
-|Junit - Codecov|[![Codecov](https://img.shields.io/codecov/c/github/kamontat/CheckIDNumberA/feature%2Fcircle2%2Funit_test.svg?maxAge=2592000&style=flat-square)](https://codecov.io/gh/kamontat/CheckIDNumberA/branch/feature%2Fcircle2%2Funit_test)| - |
+|AndroidTest - Codecov|[![Codecov](https://img.shields.io/codecov/c/github/kamontat/CheckIDNumberA/master.svg?style=flat-square)](https://codecov.io/gh/kamontat/CheckIDNumberA/branch/master)| - |
+|Junit - Codecov|[![Codecov](https://img.shields.io/codecov/c/github/kamontat/CheckIDNumberA/feature%2Fcircle2%2Funit_test.svg?style=flat-square)](https://codecov.io/gh/kamontat/CheckIDNumberA/branch/feature%2Fcircle2%2Funit_test)| - |
 
 # Creator
 - Kamontat Chantrachirathumrong
