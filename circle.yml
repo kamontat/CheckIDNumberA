@@ -32,16 +32,10 @@ test:
   post:
     # copy apk
     - if [[ -d app/build/outputs/apk ]]; then cp -r app/build/outputs/apk $CIRCLE_ARTIFACTS; fi
-    # copy lint html
-    - if [[ -f app/build/reports/lint-results.html ]]; then cp -r app/build/reports/lint-results.html $CIRCLE_ARTIFACTS; fi
-    - if [[ -f app/build/reports/lint-results-release-fatal.html ]]; then cp -r app/build/reports/lint-results-release-fatal.html $CIRCLE_ARTIFACTS; fi
-    # copy result html
-    - if [[ -d app/build/reports/androidTests/connected ]]; then cp -r app/build/reports/androidTests/connected $CIRCLE_ARTIFACTS; fi
-    # copy profile html
+    # copy report html
+    - if [[ -f app/build/reports ]]; then cp -r app/build/reports $CIRCLE_ARTIFACTS; fi
+    # copy profile
     - if [[ -d build/reports/profile ]]; then cp -r build/reports/profile $CIRCLE_ARTIFACTS; fi
-    - if [[ -d reports ]]; then cp -r reports $CIRCLE_ARTIFACTS; fi
-    # copy coverage
-    - if [[ -d app/build/reports/coverage ]]; then cp -r app/build/reports/coverage $CIRCLE_ARTIFACTS; fi
     # copy the test results to the test results directory.
     - if [[ -d app/build/outputs/androidTest-results/connected ]]; then cp -r app/build/outputs/androidTest-results/connected $CIRCLE_TEST_REPORTS; fi
       # code cov
