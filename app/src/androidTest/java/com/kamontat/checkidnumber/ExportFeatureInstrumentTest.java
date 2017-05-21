@@ -19,6 +19,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -46,10 +47,15 @@ public class ExportFeatureInstrumentTest {
 	@Rule
 	public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 	
+	@Ignore
 	@Test
 	public void exportSize() throws Exception {
 		multipleAddID();
 		int actualSize = activityTestRule.getActivity().getIDNumbers().length;
+		int expect = getIDNumbers().length;
+		assertEquals(expect, actualSize);
+		
+		// can't test in integration
 		openActionBarOverflowOrOptionsMenu(activityTestRule.getActivity());
 		onView(withText(Matchers.containsString(actualSize + " id"))).check(matches(isDisplayed()));
 	}
