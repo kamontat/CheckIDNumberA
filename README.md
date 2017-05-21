@@ -22,8 +22,8 @@ saving id-number for **android version**, it have made because my mother need so
 ### Code Coverage
 |Title|Badge|Comments|
 |:---:|:---:|:------:|
-|AndroidTest - Codecov|[![Codecov](https://img.shields.io/codecov/c/github/kamontat/CheckIDNumberA/master.svg?maxAge=2592000&style=flat-square)](https://codecov.io/gh/kamontat/CheckIDNumberA)| - |
-|Junit - Codecov|[![Codecov](https://img.shields.io/codecov/c/github/kamontat/CheckIDNumberA/feature%2Fcircle2%2Funit_test.svg?maxAge=2592000&style=flat-square)](https://codecov.io/gh/kamontat/CheckIDNumberA)| - |
+|AndroidTest - Codecov|[![Codecov](https://img.shields.io/codecov/c/github/kamontat/CheckIDNumberA/master.svg?maxAge=2592000&style=flat-square)](https://codecov.io/gh/kamontat/CheckIDNumberA/branch/master)| - |
+|Junit - Codecov|[![Codecov](https://img.shields.io/codecov/c/github/kamontat/CheckIDNumberA/feature%2Fcircle2%2Funit_test.svg?maxAge=2592000&style=flat-square)](https://codecov.io/gh/kamontat/CheckIDNumberA/branch/feature%2Fcircle2%2Funit_test)| - |
 
 # Creator
 - Kamontat Chantrachirathumrong
