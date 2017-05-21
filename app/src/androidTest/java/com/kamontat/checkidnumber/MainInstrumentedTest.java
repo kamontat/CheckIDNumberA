@@ -50,13 +50,12 @@ public class MainInstrumentedTest {
 		@Test
 		public void requestPermission() throws Exception {
 			launchApp();
-			UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).wait(Until.hasObject(By.pkg(APP_PACKAGE).depth(0)), LAUNCH_TIMEOUT);
+			UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).wait(Until.hasObject(By.pkg(APP_PACKAGE).depth(0)), SLEEP_CONSTANT);
 			allowPermissionsIfNeeded(Manifest.permission.WRITE_EXTERNAL_STORAGE);
 		}
 	}
 	
 	static final String APP_PACKAGE = "com.kamontat.checkidnumber";
-	static final int LAUNCH_TIMEOUT = 5000;
 	
 	static final String SIMPLE_INT = "1234";
 	static final String SIMPLE_STRING = "asdf";
