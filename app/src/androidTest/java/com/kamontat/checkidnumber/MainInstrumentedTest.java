@@ -24,6 +24,7 @@ import com.kamontat.checkidnumber.view.MainActivity;
 import com.kamontat.checkidnumber.view.fragment.InputFragment;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -45,8 +46,14 @@ import static org.junit.Assert.assertTrue;
 @Suite.SuiteClasses({MainInstrumentedTest.InitialActivity.class, InputInstrumentedTest.class, PageInstrumentedTest.class, ExportFeatureInstrumentTest.class})
 public class MainInstrumentedTest {
 	
+	@Rule
+	public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
+	
 	@RunWith(AndroidJUnit4.class)
 	public static class InitialActivity {
+		@Rule
+		public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
+		
 		@Test
 		public void requestPermission() throws Exception {
 			launchApp();
