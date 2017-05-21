@@ -14,17 +14,16 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.kamontat.checkidnumber.R;
 import com.kamontat.checkidnumber.adapter.ViewPagerAdapter;
 import com.kamontat.checkidnumber.api.constants.Status;
 import com.kamontat.checkidnumber.api.getter.About;
 import com.kamontat.checkidnumber.api.getter.Export;
+import com.kamontat.checkidnumber.api.getter.NonExport;
 import com.kamontat.checkidnumber.model.IDNumber;
 import com.kamontat.checkidnumber.model.Pool;
 import com.kamontat.checkidnumber.presenter.MainPresenter;
@@ -97,9 +96,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 		
 		setViewPaperAdapter();
-		requestPermission();
-		
-		Log.d("UI THREAD", Thread.currentThread().toString());
 	}
 	
 	@Override
@@ -113,7 +109,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.top_menu_export:
-				new Export(presenter).show();
+				int re = requestPermission();
+				if (re == 0) new Export(presenter).show();
+				else if (re == 2) new NonExport(this).show();
 				break;
 			case R.id.top_menu_about:
 				new About(this).show();
@@ -124,7 +122,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		// Log.d("REQUEST PERMISSION", String.valueOf(requestPermission()));
 		toggleExportFeatureMenu(menu);
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -134,6 +131,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		switch (requestCode) {
 			case PERMISSION_CODE:
 				toggleExportFeature();
+				if (requestPermission() == 2) new NonExport(this).show();
+				else new Export(presenter).show();
 				break;
 		}
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -241,21 +240,18 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	}
 	
 	@Override
-	public boolean requestPermission() {
+	public int requestPermission() {
 		// Here, thisActivity is the current activity
 		if (!checkPermission()) {
 			// Should we show an explanation?
 			if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-				new MaterialDialog.Builder(this).title("No write file permission").content("Can't export result").canceledOnTouchOutside(true).show();
-				toggleExportFeature();
-				return false;
+				return 2;
 			} else {
 				ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_CODE);
-				toggleExportFeature();
-				return true;
+				return 1;
 			}
 		}
-		return true;
+		return 0;
 	}
 	
 	@Override
@@ -274,7 +270,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	
 	public void toggleExportFeatureMenu(Menu menu) {
 		String title = String.format(Locale.ENGLISH, "%s %d id (%s)", getResources().getString(R.string.export), presenter.getPool().getCount(), getResources().getString(R.string.xls));
-		toggleExportFeature();
 		menu.findItem(R.id.top_menu_export).setVisible(EXPORT_FEATURE);
 		menu.findItem(R.id.top_menu_export).setTitle(title);
 		menu.findItem(R.id.top_menu_export).setEnabled(presenter.getPool().getCount() > 0);

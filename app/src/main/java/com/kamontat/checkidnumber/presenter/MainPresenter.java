@@ -40,7 +40,7 @@ public class MainPresenter {
 	}
 	
 	public boolean requestPermission() {
-		return view.requestPermission();
+		return view.requestPermission() == 0;
 	}
 	
 	public boolean checkPermission() {
