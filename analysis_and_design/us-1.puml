@@ -1,0 +1,41 @@
+@startuml
+skinparam sequenceArrowThickness 2
+skinparam sequenceParticipant underline
+
+actor User
+boundary MainActivity
+boundary InputFragment
+entity IDNumber
+entity Strategy
+
+
+User -> MainActivity: afterTextChanged(rawID);
+activate MainActivity #FFBBBB
+
+MainActivity -> MainActivity: updateInput();
+MainActivity -> MainActivity: getInputText();
+
+MainActivity -> InputFragment: getInput();
+
+activate MainActivity #DarkSalmon
+MainActivity <-- InputFragment: input.getText().toString();
+deactivate MainActivity
+
+MainActivity -> IDNumber: new IDNumber(input)
+activate IDNumber #FFBBBB
+IDNumber -> IDNumber: setId(id);
+IDNumber -> IDNumber: isIDCorrect();
+IDNumber -> Strategy: checking(id);
+IDNumber <-- Strategy: status
+MainActivity <-- IDNumber: created
+
+MainActivity -> MainActivity: updateInput(idNumber);
+MainActivity -> IDNumber: getStatus();
+MainActivity <-- IDNumber: status
+MainActivity -> InputFragment: setButton(status == Status.OK)
+MainActivity -> InputFragment: updateStatus(status, resource)
+
+deactivate IDNumber
+deactivate MainActivity
+
+@enduml

@@ -1,0 +1,50 @@
+@startuml
+skinparam sequenceArrowThickness 2
+skinparam sequenceParticipant underline
+
+title
+ <u>Precondition</u>:
+    User must already write valid id-number
+    in input bar
+end title
+
+actor User
+boundary MainActivity
+boundary InputFragment
+entity IDNumber
+entity Strategy
+control MainPresenter
+collections Pool
+
+User -> MainActivity: onClick(view);
+activate MainActivity #FFBBBB
+MainActivity -> MainActivity: checkAndInsert();
+MainActivity -> MainActivity: getInputText();
+MainActivity -> InputFragment: getInput();
+MainActivity <-- InputFragment: input.getText().toString();
+
+MainActivity -> IDNumber: new IDNumber(input)
+activate IDNumber #FFBBBB
+IDNumber -> IDNumber: setId(id);
+IDNumber -> IDNumber: isIDCorrect();
+IDNumber -> Strategy: checking(id);
+IDNumber <-- Strategy: status
+MainActivity -> IDNumber: getStatus();
+MainActivity <-- IDNumber: status
+alt status == Status.OK
+    MainActivity -> MainPresenter: addID(idNumber);
+    MainPresenter -> Pool: add(idNumber);
+    MainActivity -> InputFragment: clearText();
+else
+    MainActivity -> MainActivity: updateInput(idNumber);
+    MainActivity -> IDNumber: getStatus();
+    MainActivity <-- IDNumber: status
+    MainActivity -> InputFragment: setButton(status == Status.OK)
+    MainActivity -> InputFragment: updateStatus(status, resource)
+end
+
+deactivate IDNumber
+deactivate MainActivity
+
+
+@enduml

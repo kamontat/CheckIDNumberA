@@ -1,0 +1,44 @@
+@startuml
+skinparam sequenceArrowThickness 2
+skinparam sequenceParticipant underline
+
+actor User
+boundary MainActivity
+boundary InputFragment
+boundary ViewPager
+
+User -> MainActivity: onNavigationItemSelected(menuItem);
+activate MainActivity #FFBBBB
+MainActivity -> MenuItem: getItemId();
+MainActivity <-- MenuItem: id
+MainActivity -> MenuItem: getChecked(true);
+alt id == R.id.navigation_insert
+    MainActivity -> ViewPager: setCurrentItem(0);
+    MainActivity -> MainActivity: showKeyBoard();
+    MainActivity -> InputFragment: showKeyboard(this);
+    InputFragment -> EditText: requestFocus();
+    InputFragment <-- EditText: boolean
+    alt input != null && boolean
+        InputFragment -> MainActivity: getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputFragment <-- MainActivity: inputMethodManager
+        InputFragment -> InputMethodManager: showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+    end
+else id == R.id.navigation_list
+    MainActivity -> ViewPager: setCurrentItem(1);
+    MainActivity -> MainActivity: hideKeyBoard();
+    MainActivity -> InputFragment: showKeyboard(this);
+    InputFragment -> MainActivity: getWindow();
+    InputFragment <-- MainActivity: window
+    InputFragment -> Window: getCurrentFocus();
+    InputFragment <-- Window: view
+    alt view != null
+        InputFragment -> MainActivity: getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputFragment <-- MainActivity: inputMethodManager
+        InputFragment -> View: getWindowToken();
+        InputFragment <-- View: iBinder
+        InputFragment -> InputMethodManager: hideSoftInputFromWindow(iBinder, 0);
+    end
+end
+
+deactivate MainActivity
+@enduml

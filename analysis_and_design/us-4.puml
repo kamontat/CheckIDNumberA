@@ -1,0 +1,95 @@
+@startuml
+skinparam sequenceArrowThickness 2
+skinparam sequenceParticipant underline
+
+actor User
+boundary MainActivity
+boundary InputFragment
+boundary NonExport
+boundary Export
+
+User -> MainActivity: onOptionsItemSelected(menuItem);
+activate MainActivity #FFBBBB
+
+MainActivity -> MenuItem: getItemId();
+MainActivity <-- MenuItem: id
+
+alt id == R.id.top_menu_export
+    MainActivity -> MainActivity: requestPermission();
+    activate MainActivity #DarkSalmon
+    MainActivity -> MainActivity: checkPermission();
+    activate MainActivity #FFDDDD
+    MainActivity -> ContextCompat: checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    MainActivity <-- ContextCompat: permissionCheck
+    MainActivity <-- MainActivity: isPermissionAllow
+    deactivate MainActivity
+
+    alt isPermissionAllow
+        MainActivity -> ActivityCompat: shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        MainActivity <-- ActivityCompat : boolean
+        alt boolean
+            MainActivity <-- MainActivity: 2
+        else
+            MainActivity -> ActivityCompat: requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_CODE);
+            ref over MainActivity, ActivityCompat : wait user to response
+            MainActivity <-- MainActivity: 1
+        end
+    end
+    MainActivity <-- MainActivity: 0
+    deactivate MainActivity
+    alt request == 2
+        MainActivity -> NonExport: new NonExport(this);
+        MainActivity -> NonExport: show();
+        activate NonExport #FFBBBB
+        NonExport -> NonExport: setting();
+        NonExport -> MaterialDialog.Builder: new MaterialDialog.Builder(root);
+        NonExport <-- MaterialDialog.Builder: this
+        NonExport -> MaterialDialog.Builder: title(title);
+        NonExport <-- MaterialDialog.Builder: this
+        NonExport -> MaterialDialog.Builder: content(content);
+        NonExport <-- MaterialDialog.Builder: this
+        NonExport -> MaterialDialog.Builder: positiveText(R.string.yes);
+        NonExport <-- MaterialDialog.Builder: this
+        NonExport -> MaterialDialog.Builder: negativeText(R.string.no);
+        NonExport <-- MaterialDialog.Builder: this
+        NonExport -> NonExport: getRequestCallBack();
+        NonExport -> MaterialDialog.Builder: onNegative(callBack);
+        NonExport <-- MaterialDialog.Builder: this
+        NonExport -> MaterialDialog.Builder: canceledOnTouchOutside(true);
+        NonExport <-- MaterialDialog.Builder: this
+        NonExport -> MaterialDialog.Builder: show();
+        NonExport <-- MaterialDialog.Builder: dialog
+        deactivate NonExport
+    else request == 0
+        MainActivity -> Export: new Export(presenter);
+        MainActivity -> Export: show();
+        activate Export #FFBBBB
+        Export -> Export: setting();
+        Export -> MaterialDialog.Builder: new MaterialDialog.Builder(root);
+        Export <-- MaterialDialog.Builder: this
+        Export -> MaterialDialog.Builder: title(title);
+        Export <-- MaterialDialog.Builder: this
+        Export -> MaterialDialog.Builder: content(content);
+        Export <-- MaterialDialog.Builder: this
+        Export -> MaterialDialog.Builder: inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        Export <-- MaterialDialog.Builder: this
+        Export -> MaterialDialog.Builder: inputRange(1, 50);
+        Export <-- MaterialDialog.Builder: this
+        Export -> MaterialDialog.Builder: input(R.string.input_file_name_hint);
+        Export <-- MaterialDialog.Builder: this
+        Export -> MaterialDialog.Builder: checkBoxPromptRes(R.string.delete_message, false, null);
+        Export <-- MaterialDialog.Builder: this
+        Export -> MaterialDialog.Builder: positiveText(R.string.save_message);
+        Export <-- MaterialDialog.Builder: this
+        Export -> MaterialDialog.Builder: negativeText(R.string.cancel_message);
+        Export <-- MaterialDialog.Builder: this
+        Export -> MaterialDialog.Builder: canceledOnTouchOutside(true);
+        Export <-- MaterialDialog.Builder: this
+        Export -> MaterialDialog.Builder: show();
+        Export <-- MaterialDialog.Builder: dialog
+        deactivate Export
+    end
+end
+
+deactivate MainActivity
+@enduml
