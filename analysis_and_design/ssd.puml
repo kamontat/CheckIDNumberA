@@ -1,0 +1,36 @@
+@startuml
+actor User
+participant System
+
+== enter id-number ==
+
+loop many as user needed
+    User -> System: input(idNumber)
+    User <-- System: setColor()
+    User <-- System: setTextMessage()
+    alt valid id-number
+        User -> System: click(enterBtn)
+    else invalid id-number
+       User -> System: input(newIDNumber)
+    end
+end
+
+== open list page ==
+
+User -> System: click(ListBtn)
+User <-- System: openListPage()
+
+== other way to open ==
+
+User -> System: swipe(right)
+User <-- System: openListPage()
+
+== export ==
+
+User -> System: click(top-menu)
+User -> System: click(export-menu)
+User -> System: allowPermission()
+User -> System: input(fileName)
+User <-- System: show(result)
+
+@enduml
