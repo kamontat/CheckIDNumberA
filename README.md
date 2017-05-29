@@ -3,6 +3,15 @@
 # Description
 saving id-number for **android version**, it have made because my mother need some software to record her id-number that using from her job.
 
+### File
+- [design](design) - is the folder that contains my design prototype
+- [document](document) - is the document of this project contains
+    - [sequence diagram](document/sequence_diagram)
+    - [system sequence diagram](document/system-sequence-diagram.png)
+    - [prototype](document/prototype.jpeg)
+    - [uml diagram](document/uml-diagram.png)
+    - [domain model](document/domain-model.png)
+
 # Test
 > - Codecov Android - will test only android component.  
 > - Codecov Junit - will test only code.  
