@@ -5,6 +5,7 @@ saving id-number for **android version**, it have made because my mother need so
 
 ### File
 - [design](design) - is the folder that contains my design prototype
+- [usecases](usecases) - file of use case in `casual format` and `fully dressed format`
 - [document](document) - is the document of this project contains
     - [sequence diagram](document/sequence_diagram)
     - [system sequence diagram](document/system-sequence-diagram.png)
