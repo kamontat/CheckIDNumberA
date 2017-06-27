@@ -24,7 +24,7 @@ public class NonExport implements Showable {
 	}
 	
 	private MaterialDialog.Builder setting() {
-		return new MaterialDialog.Builder(root).title(getTitle()).content(getContent()).positiveText(R.string.yes).negativeText(R.string.no).onNegative(getRequestCallBack());
+		return new MaterialDialog.Builder(root).title(getTitle()).content(getContent()).positiveText(R.string.yes).negativeText(R.string.no).onPositive(getRequestCallBack());
 	}
 	
 	private String getTitle() {
