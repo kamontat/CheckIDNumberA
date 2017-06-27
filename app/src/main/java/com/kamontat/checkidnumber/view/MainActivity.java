@@ -32,6 +32,8 @@ import com.kamontat.checkidnumber.view.fragment.InputFragment;
 import java.util.*;
 
 public class MainActivity extends AppCompatActivity implements MainView {
+	private final String TAG = "MainActivity";
+	
 	public static boolean EXPORT_FEATURE = true;
 	public static final int PERMISSION_CODE = 1;
 	private MainPresenter presenter;
@@ -102,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.top_menu, menu);
+		toggleExportFeatureMenu(menu);
 		return true;
 	}
 	
@@ -109,9 +112,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.top_menu_export:
-				int re = requestPermission();
-				if (re == 0) new Export(presenter).show();
-				else if (re == 2) new NonExport(this).show();
+				if (requestPermission()) new Export(presenter).show();
 				break;
 			case R.id.top_menu_about:
 				new About(this).show();
@@ -130,9 +131,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		switch (requestCode) {
 			case PERMISSION_CODE:
-				toggleExportFeature();
-				if (requestPermission() == 2) new NonExport(this).show();
-				else new Export(presenter).show();
+				for (String permission : permissions) {
+					if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
+						new NonExport(this).show();
+					} else {
+						if (checkPermission()) new Export(presenter).show();
+						else EXPORT_FEATURE = false;
+					}
+				}
 				break;
 		}
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -198,6 +204,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	
 	@Override
 	public void updateInput(IDNumber id) {
+		inputFragment.updateInputSize(id.getSize());
 		inputFragment.setButtonEnable(id.getStatus() == Status.OK);
 		inputFragment.updateStatus(id.getStatus(), getResources());
 	}
@@ -239,19 +246,21 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		return permissionCheck == PackageManager.PERMISSION_GRANTED;
 	}
 	
+	/**
+	 * @return {@code true}, only have permission; otherwise return {@code false}
+	 */
 	@Override
-	public int requestPermission() {
+	public boolean requestPermission() {
 		// Here, thisActivity is the current activity
 		if (!checkPermission()) {
 			// Should we show an explanation?
-			if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-				return 2;
-			} else {
+			if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+				new NonExport(this).show();
+			else
 				ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_CODE);
-				return 1;
-			}
+			return false;
 		}
-		return 0;
+		return true;
 	}
 	
 	@Override
@@ -273,9 +282,5 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		menu.findItem(R.id.top_menu_export).setVisible(EXPORT_FEATURE);
 		menu.findItem(R.id.top_menu_export).setTitle(title);
 		menu.findItem(R.id.top_menu_export).setEnabled(presenter.getPool().getCount() > 0);
-	}
-	
-	public void toggleExportFeature() {
-		EXPORT_FEATURE = checkPermission();
 	}
 }
