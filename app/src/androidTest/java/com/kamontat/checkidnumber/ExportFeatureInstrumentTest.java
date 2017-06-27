@@ -36,7 +36,8 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 /**
- * ignore this test in circle because
+ * ignore this test in circle because,
+ * permission resetting {@code adb shell pm reset-permissions com.kamontat.checkidnumber}
  *
  * @author kamontat
  * @version 1.0
