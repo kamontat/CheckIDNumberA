@@ -56,6 +56,10 @@ public class IDNumber {
 		return status;
 	}
 	
+	public int getSize() {
+		return id.length();
+	}
+	
 	/**
 	 * convert first digit in id-number to genre in form of String by using id rule of <b>Thailand</b>
 	 *

@@ -34,5 +34,5 @@ public interface MainView {
 	 * <li>2 - deny before</li>
 	 * </ul>
 	 */
-	int requestPermission();
+	boolean requestPermission();
 }
