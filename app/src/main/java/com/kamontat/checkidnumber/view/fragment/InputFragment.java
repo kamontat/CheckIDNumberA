@@ -18,6 +18,8 @@ import android.widget.TextView;
 import com.kamontat.checkidnumber.R;
 import com.kamontat.checkidnumber.api.constants.Status;
 
+import java.util.*;
+
 /**
  * @author kamontat
  * @version 1.0
@@ -53,6 +55,7 @@ public class InputFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_input, container, false);
 		
 		message = (TextView) view.findViewById(R.id.fragment_message);
+		updateInputSize(0);
 		statusMessage = (TextView) view.findViewById(R.id.fragment_status_message);
 		input = (EditText) view.findViewById(R.id.fragment_input_id_number);
 		if (watcher != null) input.addTextChangedListener(watcher);
@@ -71,6 +74,11 @@ public class InputFragment extends Fragment {
 		statusMessage.setText(status.toString());
 		statusMessage.setTextColor(status.getColor(r));
 		input.setTextColor(status.getColor(r));
+	}
+	
+	public void updateInputSize(int size) {
+		String message = String.format(Locale.ENGLISH, "%s (%d)", getResources().getString(R.string.input_message), size);
+		this.message.setText(message);
 	}
 	
 	public void setInputListener(TextWatcher watcher) {
