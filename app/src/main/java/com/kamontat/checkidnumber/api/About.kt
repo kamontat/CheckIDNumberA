@@ -1,4 +1,4 @@
-package com.kamontat.checkidnumber.api.getter
+package com.kamontat.checkidnumber.api
 
 import android.app.Activity
 import android.content.Intent
@@ -30,7 +30,7 @@ class About(private val root: Activity) : Showable {
         get() = root.resources.getString(R.string.app_description) + "\n\n" + VERSION + "\n\nDevelop by"
 
     private val callBack: MaterialDialog.ListCallback
-        get() = MaterialDialog.ListCallback { dialog, itemView, which, text ->
+        get() = MaterialDialog.ListCallback { _, _, _, _ ->
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(root.resources.getString(R.string.developer_github)))
             root.startActivity(browserIntent)
         }

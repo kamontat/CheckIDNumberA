@@ -60,7 +60,6 @@ class IDNumber : Serializable {
      * @return string of genre
      */
     val idGenre: String
-        @Deprecated("")
         get() {
             when {
                 splitID!![0] == '1' -> return "สัญชาติไทย และ แจ้งเกิดทันเวลา"
@@ -138,7 +137,7 @@ class IDNumber : Serializable {
     override fun hashCode(): Int {
         var result = splitID?.let { Arrays.hashCode(it) } ?: 0
         result = 31 * result + (id?.hashCode() ?: 0)
-        result = 31 * result + (status.hashCode() ?: 0)
+        result = 31 * result + status.hashCode()
         return result
     }
 

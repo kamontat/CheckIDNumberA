@@ -1,9 +1,8 @@
-package com.kamontat.checkidnumber.api.getter
+package com.kamontat.checkidnumber.api
 
 import android.Manifest
 import android.app.Activity
 import android.support.v4.app.ActivityCompat
-import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.kamontat.checkidnumber.R
 import com.kamontat.checkidnumber.raw.Showable
@@ -29,7 +28,7 @@ class NonExport(private val root: Activity) : Showable {
         get() = root.resources.getString(R.string.ask_for_sure)
 
     private val requestCallBack: MaterialDialog.SingleButtonCallback
-        get() = MaterialDialog.SingleButtonCallback { dialog, which -> ActivityCompat.requestPermissions(root, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), Constants.PERMISSION_CODE) }
+        get() = MaterialDialog.SingleButtonCallback { _, _ -> ActivityCompat.requestPermissions(root, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), Constants.PERMISSION_CODE) }
 
     override fun show() {
         setting().canceledOnTouchOutside(true).show()

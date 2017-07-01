@@ -1,4 +1,4 @@
-package com.kamontat.checkidnumber.api.getter
+package com.kamontat.checkidnumber.api
 
 import android.text.InputType
 import com.afollestad.materialdialogs.MaterialDialog
