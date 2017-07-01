@@ -80,7 +80,8 @@ open class ExcelModelTest {
         clean()
     }
 
-    @Test(expected = Exception::class)
+    @Test
+    @Throws(Exception::class)
     fun addAllIDNumber() {
         val v_i = IDNumber(MainJunitTest.VALIDATE_ID)
         val i_i_n_u = IDNumber(MainJunitTest.INVALIDATE_ID_NOT_NINE_UPPER_BOUND)
