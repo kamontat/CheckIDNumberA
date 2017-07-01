@@ -31,8 +31,8 @@ allprojects {
         appID = "com.kamontat.checkidnumber"
         testAppID = "com.kamontat.checkidnumber.test"
         appName = "CheckIDNumber"
-        appVersionName = "1.3.1" // update export with clear function
-        appVersionCode = 1310
+        appVersionName = "1.3.2" // update export with clear function
+        appVersionCode = 1321
 
         buildTools = "25.0.3"
         minSDKVersion = 21

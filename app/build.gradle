@@ -109,6 +109,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     // android design
     
+    // ignore this error
     compile 'com.android.support:appcompat-v7:25.4.0'
     compile 'com.android.support:design:25.4.0'
 
