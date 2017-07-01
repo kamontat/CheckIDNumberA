@@ -19,7 +19,6 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -43,7 +42,7 @@ import static org.junit.Assert.*;
  * @version 1.0
  * @since Sat 20/May/2017 - 10:57 PM
  */
-@Ignore
+// @Ignore
 public class ExportFeatureInstrumentTest {
 	private static final String FILE_NAME = "test";
 	private static final File FILE_LOCATION = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), FILE_NAME + ".xls");
@@ -54,7 +53,7 @@ public class ExportFeatureInstrumentTest {
 	@Test
 	public void exportSize() throws Exception {
 		multipleAddID();
-		int actualSize = activityTestRule.getActivity().getIDNumbers().length;
+		int actualSize = activityTestRule.getActivity().getIdNumbers().length;
 		int expect = getIDNumbers().length;
 		assertEquals(expect, actualSize);
 		
@@ -147,7 +146,7 @@ public class ExportFeatureInstrumentTest {
 		Sheet s = checkSheetName(workbook);
 		if (s == null) fail("No Sheet Name!");
 		
-		checkSheetData(s, activityTestRule.getActivity().getIDNumbers());
+		checkSheetData(s, activityTestRule.getActivity().getIdNumbers());
 		
 		workbook.close();
 	}

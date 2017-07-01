@@ -1,7 +1,6 @@
 package com.kamontat.checkidnumber.model;
 
 import com.kamontat.checkidnumber.MainJunitTest;
-import com.kamontat.checkidnumber.api.constants.Status;
 import org.junit.Assert;
 import org.junit.Test;
 

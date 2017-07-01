@@ -1,7 +1,5 @@
 package com.kamontat.checkidnumber.model;
 
-import com.kamontat.checkidnumber.api.constants.Status;
-import com.kamontat.checkidnumber.model.strategy.idnumber.ThailandIDNumberStrategy;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

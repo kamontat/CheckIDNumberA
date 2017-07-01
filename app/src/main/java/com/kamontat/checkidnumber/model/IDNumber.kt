@@ -3,6 +3,7 @@ package com.kamontat.checkidnumber.model
 import com.kamontat.checkidnumber.api.constants.Status
 import com.kamontat.checkidnumber.model.strategy.idnumber.IDNumberStrategy
 import com.kamontat.checkidnumber.model.strategy.idnumber.ThailandIDNumberStrategy
+import java.io.Serializable
 import java.util.*
 
 /**
@@ -15,10 +16,10 @@ import java.util.*
  * @version 2.2
  * @since 19/8/59 - 20:41
  */
-class IDNumber {
+class IDNumber : Serializable {
     private var splitID: CharArray? = null
     private var id: String? = null
-    var status: Status? = null
+    var status: Status = Status.NOT_CREATE
         private set
     val size: Int
         get() {
@@ -50,7 +51,7 @@ class IDNumber {
     fun setId(id: String) {
         this.id = id
         splitID = id.toCharArray()
-        isIDCorrect
+        status = isIDCorrect
     }
 
     /**
@@ -113,10 +114,10 @@ class IDNumber {
 
     /**
      * check id is passing id rule of **Thailand** or not
-     * @return if pass return true, otherwise return false
+     * @return status of current id
      */
-    val isIDCorrect: Boolean
-        get() = strategy.checking(id) == Status.OK
+    val isIDCorrect: Status
+        get() = strategy.checking(id)
 
     override fun toString(): String = if (id != null) id!! else ""
 
@@ -137,7 +138,7 @@ class IDNumber {
     override fun hashCode(): Int {
         var result = splitID?.let { Arrays.hashCode(it) } ?: 0
         result = 31 * result + (id?.hashCode() ?: 0)
-        result = 31 * result + (status?.hashCode() ?: 0)
+        result = 31 * result + (status.hashCode() ?: 0)
         return result
     }
 
