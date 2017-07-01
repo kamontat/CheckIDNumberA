@@ -162,11 +162,8 @@ class ExcelModel(private val presenter: MainPresenter?) : Observable() {
             fun addAll(format: WorksheetFormat<IDNumber, DefaultWorksheetFormat.PositionValue>, ids: Array<IDNumber>): SheetProcess {
                 if (isError) return this
 
-                var i = 0
                 ids.forEachIndexed { index, idNumber ->
-                    {
-                        add(format, idNumber, index)
-                    }
+                    add(format, idNumber, index)
                 }
                 return this
             }
