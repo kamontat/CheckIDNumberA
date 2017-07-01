@@ -39,5 +39,5 @@
     <string name="no">No</string>
 
     <string name="no_permission">No write file permission</string>
-    <string name="ask_for_sure">Do you sure to disable export feature?</string>
+    <string name="ask_for_sure">Request my permission</string>
 </resources>

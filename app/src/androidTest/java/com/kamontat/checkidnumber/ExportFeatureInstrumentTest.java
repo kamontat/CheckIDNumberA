@@ -35,10 +35,14 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 /**
+ * ignore this test in circle because,
+ * permission resetting {@code adb shell pm reset-permissions com.kamontat.checkidnumber}
+ *
  * @author kamontat
  * @version 1.0
  * @since Sat 20/May/2017 - 10:57 PM
  */
+// @Ignore
 public class ExportFeatureInstrumentTest {
 	private static final String FILE_NAME = "test";
 	private static final File FILE_LOCATION = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), FILE_NAME + ".xls");
@@ -49,7 +53,7 @@ public class ExportFeatureInstrumentTest {
 	@Test
 	public void exportSize() throws Exception {
 		multipleAddID();
-		int actualSize = activityTestRule.getActivity().getIDNumbers().length;
+		int actualSize = activityTestRule.getActivity().getIdNumbers().length;
 		int expect = getIDNumbers().length;
 		assertEquals(expect, actualSize);
 		
@@ -142,7 +146,7 @@ public class ExportFeatureInstrumentTest {
 		Sheet s = checkSheetName(workbook);
 		if (s == null) fail("No Sheet Name!");
 		
-		checkSheetData(s, activityTestRule.getActivity().getIDNumbers());
+		checkSheetData(s, activityTestRule.getActivity().getIdNumbers());
 		
 		workbook.close();
 	}

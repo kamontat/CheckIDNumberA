@@ -1,7 +1,9 @@
 import com.android.ddmlib.DdmPreferences
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'jacoco-android'
+apply plugin: 'com.google.gms.google-services'
 
 // Create a variable called keystorePropertiesFile, and initialize it to your
 // keystore.properties file, in the rootProject folder.
@@ -106,14 +108,20 @@ dependencies {
     // local library
     compile fileTree(include: ['*.jar'], dir: 'libs')
     // android design
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
+    
+    // ignore this error
+    compile 'com.android.support:appcompat-v7:25.4.0'
+    compile 'com.android.support:design:25.4.0'
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     // dialog
     compile 'com.afollestad.material-dialogs:core:0.9.4.4'
     compile 'com.afollestad.material-dialogs:commons:0.9.4.4'
+
     testCompile 'com.dicedmelon.gradle:jacoco-android:0.1.1'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.7.22'
+
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
     androidTestCompile('com.android.support.test:runner:0.5') {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -134,4 +142,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'appcompat-v7'
         exclude group: 'com.android.support', module: 'design'
     }
+}
+repositories {
+    mavenCentral()
 }
