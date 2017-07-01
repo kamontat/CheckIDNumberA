@@ -11,3 +11,5 @@
 keystore.properties
 
 *.hprof
+
+!production
