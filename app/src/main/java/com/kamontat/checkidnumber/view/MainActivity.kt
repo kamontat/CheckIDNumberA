@@ -21,9 +21,9 @@ import com.kamontat.checkidnumber.R
 import com.kamontat.checkidnumber.adapter.ViewPagerAdapter
 import com.kamontat.checkidnumber.api.Logger
 import com.kamontat.checkidnumber.api.constants.Status
-import com.kamontat.checkidnumber.api.getter.About
-import com.kamontat.checkidnumber.api.getter.Export
-import com.kamontat.checkidnumber.api.getter.NonExport
+import com.kamontat.checkidnumber.api.About
+import com.kamontat.checkidnumber.api.Export
+import com.kamontat.checkidnumber.api.NonExport
 import com.kamontat.checkidnumber.model.IDNumber
 import com.kamontat.checkidnumber.model.Pool
 import com.kamontat.checkidnumber.presenter.MainPresenter

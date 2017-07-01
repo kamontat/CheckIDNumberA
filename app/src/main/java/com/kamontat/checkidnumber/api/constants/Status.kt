@@ -10,7 +10,7 @@ import java.io.Serializable
  * @version 1.0
  * @since 1/7/60 - 11:08
  */
-enum class Status private constructor(private val message: String, val color: Int) : Serializable {
+enum class Status(private val message: String, val color: Int) : Serializable {
     OK("OK (Good ID)", R.color.colorCorrect),
     UNMATCHED_LENGTH("Warning (MUST be 13 Digit)", R.color.colorWarning),
     NOT_NINE("Warning (First digit CANNOT be 9)", R.color.colorWarning),

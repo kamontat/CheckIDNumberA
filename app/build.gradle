@@ -3,7 +3,8 @@ import com.android.ddmlib.DdmPreferences
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'jacoco-android'
-apply plugin: 'com.google.gms.google-services'
+apply plugin: 'kotlin-kapt'
+// apply plugin: 'com.google.gms.google-services'
 
 // Create a variable called keystorePropertiesFile, and initialize it to your
 // keystore.properties file, in the rootProject folder.
@@ -108,7 +109,7 @@ dependencies {
     // local library
     compile fileTree(include: ['*.jar'], dir: 'libs')
     // android design
-    
+
     // ignore this error
     compile 'com.android.support:appcompat-v7:25.4.0'
     compile 'com.android.support:design:25.4.0'
