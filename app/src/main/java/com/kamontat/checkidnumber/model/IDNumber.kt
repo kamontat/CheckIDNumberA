@@ -142,6 +142,6 @@ class IDNumber : Serializable {
     }
 
     companion object {
-        var strategy: IDNumberStrategy = ThailandIDNumberStrategy()
+        public var strategy: IDNumberStrategy = ThailandIDNumberStrategy()
     }
 }
